@@ -16,8 +16,9 @@
     "main": [
       "j5im.bannercapes.BannerCapes"
     ],
-    "client": [],
-    "server": []
+    "client": [
+	  "j5im.bannercapes.BannerCapesClient"
+	]
   },
   "mixins": [
     "banner_capes.mixins.json"

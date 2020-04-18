@@ -1,6 +1,10 @@
 {
 	"item.banner_capes.banner_cape": "Banner Cape",
 	"item.banner_capes.banner_cape.empty": "Bannerless",
-	"item.banner_capes.banner_cape.nubbins": "Nubbins: %d",
-	"item.banner_capes.banner_cape.no_nubbins": "No nubbins"
+	"item.banner_capes.banner_cape.nubbins": "%s nubbins",
+	"item.banner_capes.banner_cape.no_nubbins": "No nubbins",
+	"advancements.banner_capes.root.title": "Cape'd and Banner'd",
+	"advancements.banner_capes.root.description": "Have a banner cape",
+	"advancements.banner_capes.mojangsta.title": "Fauxjangsta",
+	"advancements.banner_capes.mojangsta.description": "Impersonate a developer"
 }

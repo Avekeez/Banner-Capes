@@ -2,11 +2,13 @@ package j5im.bannercapes.recipe;
 
 import j5im.bannercapes.BannerCapes;
 
+import j5im.bannercapes.Nubbin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BannerItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.recipe.RecipeSerializer;
@@ -14,7 +16,7 @@ import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-// one banner cape + one banner = banner cape with the banner patterns
+// one banner cape and/or at most one banner or nubbin = banner cape with the banner patterns and nubbin
 public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
     public BannerCapeDecorationRecipe(Identifier id) {
         super(id);
@@ -22,31 +24,41 @@ public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
 
     @Override
     public boolean matches(CraftingInventory inv, World world) {
-        ItemStack out = ItemStack.EMPTY;
-        ItemStack banner = ItemStack.EMPTY;
+        boolean foundCape = false;
+        boolean foundBanner = false;
+        boolean foundNubbin = false;
         for (int i = 0; i < inv.getInvSize(); i++) {
             ItemStack cur = inv.getInvStack(i);
             if (!cur.isEmpty()) {
-                if (cur.getItem() instanceof BannerItem) {
-                    if (!banner.isEmpty()) {
+                Item item = cur.getItem();
+                if (item instanceof BannerItem) {
+                    if (foundBanner) {
                         return false;
                     }
-                    banner = cur;
+                    foundBanner = true;
+                } else if (item == BannerCapes.BANNER_CAPE) {
+                    if (foundCape) {
+                        return false;
+                    }
+                    foundCape = true;
+                } else if (Nubbin.isNubbinable(cur)) {
+                    if (foundNubbin) {
+                        return false;
+                    }
+                    foundNubbin = true;
                 } else {
-                    if (cur.getItem() != BannerCapes.BANNER_CAPE || !out.isEmpty()) {
-                        return false;
-                    }
-                    out = cur;
+                    return false;
                 }
             }
         }
-        return !out.isEmpty() && !banner.isEmpty();
+        return foundCape;
     }
 
     @Override
     public ItemStack craft(CraftingInventory inv) {
         ItemStack banner = ItemStack.EMPTY;
         ItemStack cape = ItemStack.EMPTY;
+        ItemStack nubbin = ItemStack.EMPTY;
         for (int i = 0; i < inv.getInvSize(); i++) {
             ItemStack cur = inv.getInvStack(i);
             if (!cur.isEmpty()) {
@@ -54,17 +66,23 @@ public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
                     banner = cur;
                 } else if (cur.getItem() == BannerCapes.BANNER_CAPE){
                     cape = cur.copy();
+                } else if (Nubbin.isNubbinable(cur)) {
+                    nubbin = cur;
                 }
             }
         }
         if (cape.isEmpty()) {
             return cape;
         } else {
-            CompoundTag tag = banner.getSubTag("BlockEntityTag");
-            tag = (tag == null) ? new CompoundTag() : tag.copy();
-            tag.putInt("Base", ((BannerItem)banner.getItem()).getColor().getId());
-            cape.putSubTag("BlockEntityTag", tag);
-            cape.getOrCreateTag().putInt("Nubbins", 0); // put the default nubbins in
+            if (!banner.isEmpty()) {
+                CompoundTag tag = banner.getSubTag("BlockEntityTag");
+                tag = (tag == null) ? new CompoundTag() : tag.copy();
+                tag.putInt("Base", ((BannerItem)banner.getItem()).getColor().getId());
+                cape.putSubTag("BlockEntityTag", tag);
+            }
+            if (!nubbin.isEmpty()) {
+                cape.getOrCreateTag().putInt("Nubbins", Nubbin.indexFromItem(nubbin));
+            }
             return cape;
         }
     }

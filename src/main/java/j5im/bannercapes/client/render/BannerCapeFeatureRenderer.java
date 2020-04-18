@@ -43,6 +43,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
         this.collar.addCuboid(0.0F, 0.0F, 0.0F, 8.0F, 1.0F, 1.0F, 0.0F);
         this.cape = new ModelPart(64, 64, 0, 0);
         this.cape.addCuboid(0.0F, 0.0F, 0.0F, 20.0F, 40.0F, 1.0F, 0.0F);
+
         this.nubbins = new ModelPart(16, 16, 8, 8);
         this.nubbins.addCuboid(-1.1f, 0, 0, 1.1f, 1f, 1, 0);
         this.nubbins.addCuboid(8f, 0, 0, 1.1f, 1, 1, 0);
@@ -96,8 +97,8 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 
     // Renders the nubbins, the lil things on the ends
     private void renderNubbins(ItemStack capeStack, MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light) {
-        Identifier tex = Nubbin.nubbinTextureFromIndex(capeStack.getOrCreateTag().getInt("Nubbins"));
-        if (tex == null) tex = Nubbin.nubbinTextureFromIndex(0);
+        Identifier tex = Nubbin.textureFromIndex(capeStack.getOrCreateTag().getInt("Nubbins"));
+        if (tex == null) tex = Nubbin.textureFromIndex(0);
 
         VertexConsumer nub_vc = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(tex));
         this.nubbins.render(matrix, nub_vc, light, OverlayTexture.DEFAULT_UV);

@@ -6,8 +6,7 @@
   ],
   "client": [
 	"PlayerEntityRendererMixin",
-	"CapeFeatureRendererMixin",
-	"ItemColorsMixin"
+	"CapeFeatureRendererMixin"
   ],
   "server": [],
   "injectors": {
