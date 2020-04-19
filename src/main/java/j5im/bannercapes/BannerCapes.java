@@ -32,6 +32,7 @@ public class BannerCapes implements ModInitializer {
         log(Level.INFO, "Initializing");
 
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "banner_cape"), BANNER_CAPE);
+
     }
 
     public static void log(Level level, String message){

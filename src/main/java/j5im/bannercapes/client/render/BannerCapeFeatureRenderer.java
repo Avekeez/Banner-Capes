@@ -51,6 +51,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 
     @Override
     public void render(MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float customAngle, float headYaw, float headPitch) {
+        if (player.isInvisible()) return;
         TrinketComponent comp = TrinketsApi.getTrinketComponent(player);
         ItemStack capeStack = comp.getStack(SlotGroups.CHEST, Slots.CAPE);
         if (!capeStack.isEmpty() && capeStack.getItem() == BannerCapes.BANNER_CAPE) {

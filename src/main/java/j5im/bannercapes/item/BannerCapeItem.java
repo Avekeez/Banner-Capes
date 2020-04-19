@@ -1,7 +1,5 @@
 package j5im.bannercapes.item;
 
-import com.sun.istack.internal.Nullable;
-
 import dev.emi.trinkets.api.ITrinket;
 import dev.emi.trinkets.api.SlotGroups;
 import dev.emi.trinkets.api.Slots;
@@ -48,7 +46,7 @@ public class BannerCapeItem extends Item implements ITrinket {
     }
 
     @Environment(EnvType.CLIENT)
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         CompoundTag patterns = stack.getSubTag("BlockEntityTag");
 
         if (patterns == null) {
