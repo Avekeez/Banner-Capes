@@ -40,13 +40,13 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
         super(context);
         // will use the default banner_base texture, with the wood
         this.collar = new ModelPart(64, 64, 0, 42);
-        this.collar.addCuboid(0.0F, 0.0F, 0.0F, 8.0F, 1.0F, 1.0F, 0.0F);
+        this.collar.addCuboid(-4.0F, 0.0F, 0.0F, 8.0F, 1.0F, 1.0F, 0.0F);
         this.cape = new ModelPart(64, 64, 0, 0);
-        this.cape.addCuboid(0.0F, 0.0F, 0.0F, 20.0F, 40.0F, 1.0F, 0.0F);
+        this.cape.addCuboid(-10.0F, 0.0F, 0.0F, 20.0F, 40.0F, 1.0F, 0.0F);
 
         this.nubbins = new ModelPart(16, 16, 8, 8);
-        this.nubbins.addCuboid(-1.1f, 0, 0, 1.1f, 1f, 1, 0);
-        this.nubbins.addCuboid(8f, 0, 0, 1.1f, 1, 1, 0);
+        this.nubbins.addCuboid(-5.1f, 0, 0, 1.1f, 1f, 1, 0);
+        this.nubbins.addCuboid(4f, 0, 0, 1.1f, 1, 1, 0);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
             // shh magic numbers
             // multiples of 1/16 (pixel size), offset by 1/32 (originally had a pixel centered)
             // places it so one of the edges of the collar is at the top of the back
-            matrix.translate(-0.25F, -0.4375F, 0.28125F);
+            matrix.translate(0, -0.4375F, 0.28125F);
             this.collar.render(matrix, bb_vc, light, OverlayTexture.DEFAULT_UV);
             renderNubbins(capeStack, matrix, vertexConsumerProvider, light);
             matrix.pop();
@@ -76,7 +76,6 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
                 // places the cape so the top is half a pixel into the collar
                 matrix.translate(0.0F, -0.40625F, 0.325F);
                 renderRotation(matrix, player, tickDelta);
-                matrix.translate(-0.3125F, 0, 0);
                 // scales it down to 10 by 20 pixel widths - cape is twice the resolution of
                 // the player
                 matrix.scale(0.5F, 0.5F, 1F);
