@@ -1,21 +1,30 @@
 package j5im.bannercapes.mixin;
 
+import com.mojang.datafixers.util.Pair;
 import j5im.bannercapes.client.render.ElytraBannerOverlayEntityModel;
+import j5im.bannercapes.item.IBannerDecoratable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.entity.BannerBlockEntity;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.feature.ElytraFeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.ElytraEntityModel;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.render.model.ModelLoader;
+import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,6 +34,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ElytraFeatureRenderer.class)
@@ -85,7 +96,7 @@ public abstract class ElytraFeatureRendererMixin<T extends LivingEntity, M exten
             locals = LocalCapture.CAPTURE_FAILHARD
     )
     public void setOverlayAngles(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci, ItemStack stack) {
-        getContextModel().copyStateTo(this.overlayModel);
+        //getContextModel().copyStateTo(this.overlayModel);
         overlayModel.setAngles(livingEntity, f, g, j, k, l);
     }
 
@@ -98,8 +109,14 @@ public abstract class ElytraFeatureRendererMixin<T extends LivingEntity, M exten
             locals = LocalCapture.CAPTURE_FAILHARD
     )
     public void renderOverlay(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci, ItemStack stack) {
-        VertexConsumer vc = ItemRenderer.getArmorVertexConsumer(vertexConsumerProvider, this.overlayModel.getLayer(SKIN), false, stack.hasEnchantmentGlint());
+        if (stack.getSubTag("BlockEntityTag") != null) {
+            SpriteIdentifier si = ModelLoader.SHIELD_BASE_NO_PATTERN;
+            List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(IBannerDecoratable.getDyeColor(stack), BannerBlockEntity.method_24281(stack));
+            overlayModel.renderBannerPatterns(matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV, si, list);
+        }
+
+        //VertexConsumer vc = ItemRenderer.getArmorVertexConsumer(vertexConsumerProvider, this.overlayModel.getLayer(SKIN), false, stack.hasEnchantmentGlint());
         //VertexConsumer vc = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(new Identifier("minecraft", "textures/entity/creeper.png")));
-        overlayModel.render(matrixStack, vc, i, OverlayTexture.DEFAULT_UV, 1, 1, 1,1);
+        //overlayModel.render(matrixStack, vc, i, OverlayTexture.DEFAULT_UV, 1, 1, 1,1);
     }
 }
