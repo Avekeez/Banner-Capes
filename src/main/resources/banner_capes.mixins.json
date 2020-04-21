@@ -3,10 +3,13 @@
   "package": "j5im.bannercapes.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+	"ElytraItemMixin"
   ],
   "client": [
 	"PlayerEntityRendererMixin",
-	"CapeFeatureRendererMixin"
+	"CapeFeatureRendererMixin",
+	"ElytraFeatureRendererMixin",
+	"ElytraEntityModelMixin"
   ],
   "server": [],
   "injectors": {

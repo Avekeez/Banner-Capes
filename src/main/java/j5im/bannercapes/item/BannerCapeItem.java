@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class BannerCapeItem extends Item implements ITrinket {
+public class BannerCapeItem extends Item implements ITrinket, IBannerDecoratable {
     public BannerCapeItem() {
         super(new Settings().group(ItemGroup.MISC).maxCount(1).rarity(Rarity.RARE));
         DispenserBlock.registerBehavior(this, TRINKET_DISPENSER_BEHAVIOR);
@@ -91,20 +91,8 @@ public class BannerCapeItem extends Item implements ITrinket {
         }
     }
 
-    public static DyeColor getDyeColor(ItemStack stack) {
-        CompoundTag tag = stack.getSubTag("BlockEntityTag");
-        if (tag == null) {
-            return null;
-        }
-        return DyeColor.byId(tag.getInt("Base"));
-    }
-
-    public static int getBaseColor(ItemStack stack) {
-        DyeColor color = getDyeColor(stack);
-        if (color == null) {
-            return -1;
-        }
-        return color.getMaterialColor().color;
+    public boolean acceptsNubbins() {
+        return false;
     }
 
     public static int getNubbinColor(ItemStack stack) {

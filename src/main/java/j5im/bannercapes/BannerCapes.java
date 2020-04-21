@@ -3,6 +3,7 @@ package j5im.bannercapes;
 import j5im.bannercapes.item.BannerCapeItem;
 import j5im.bannercapes.recipe.BannerCapeDecorationRecipe;
 
+import j5im.bannercapes.recipe.BannerElytraDecorationRecipe;
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.item.Item;
@@ -26,6 +27,11 @@ public class BannerCapes implements ModInitializer {
             Registry.RECIPE_SERIALIZER,
             "crafting_special_bannercapedecoration",
             new SpecialRecipeSerializer<>(BannerCapeDecorationRecipe::new));
+
+    public static final SpecialRecipeSerializer BANNER_ELYTRA_DECORATION_SERIALIZER = Registry.register(
+            Registry.RECIPE_SERIALIZER,
+            "crafting_special_bannerelytradecoration",
+            new SpecialRecipeSerializer<>(BannerElytraDecorationRecipe::new));
 
     @Override
     public void onInitialize() {

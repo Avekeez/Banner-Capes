@@ -8,6 +8,7 @@ import j5im.bannercapes.BannerCapes;
 import j5im.bannercapes.Nubbin;
 import j5im.bannercapes.item.BannerCapeItem;
 
+import j5im.bannercapes.item.IBannerDecoratable;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.model.ModelPart;
@@ -90,7 +91,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
     // Renders patterns
     private void renderPatterns(ItemStack stack, MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light, int overlay, SpriteIdentifier si) {
         // translates nbt to patterns
-        List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(BannerCapeItem.getDyeColor(stack), BannerBlockEntity.method_24281(stack));
+        List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(IBannerDecoratable.getDyeColor(stack), BannerBlockEntity.method_24281(stack));
         // uses the built in banner renderer for patterns
         BannerBlockEntityRenderer.method_23802(matrix, vertexConsumerProvider, light, overlay, this.cape, si, true, list);
     }

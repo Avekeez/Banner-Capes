@@ -3,6 +3,7 @@ package j5im.bannercapes;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import j5im.bannercapes.item.BannerCapeItem;
+import j5im.bannercapes.item.IBannerDecoratable;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.item.ItemStack;
@@ -42,7 +43,7 @@ public class BannerPatternMatcher {
         }
 
         public boolean matches(ItemStack stack) {
-            List<Pair<BannerPattern, DyeColor>> stackPatterns = BannerBlockEntity.method_24280(BannerCapeItem.getDyeColor(stack), BannerBlockEntity.method_24281(stack));
+            List<Pair<BannerPattern, DyeColor>> stackPatterns = BannerBlockEntity.method_24280(IBannerDecoratable.getDyeColor(stack), BannerBlockEntity.method_24281(stack));
             int templateIndex = 0;
             for (Pair<BannerPattern, DyeColor> pattern : stackPatterns) {
                 Pair<BannerPattern, DyeColor> tempPattern = template.get(templateIndex);

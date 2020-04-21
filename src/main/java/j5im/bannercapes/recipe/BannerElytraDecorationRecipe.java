@@ -11,23 +11,22 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-// one banner cape and/or at most one banner or nubbin = banner cape with the banner patterns and nubbin
-public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
-    public BannerCapeDecorationRecipe(Identifier id) {
+public class BannerElytraDecorationRecipe extends SpecialCraftingRecipe {
+    public BannerElytraDecorationRecipe(Identifier id) {
         super(id);
     }
 
     @Override
     public boolean matches(CraftingInventory inv, World world) {
-        boolean foundCape = false;
+        boolean foundElytra = false;
         boolean foundBanner = false;
-        boolean foundNubbin = false;
         for (int i = 0; i < inv.getInvSize(); i++) {
             ItemStack cur = inv.getInvStack(i);
             if (!cur.isEmpty()) {
@@ -37,65 +36,52 @@ public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
                         return false;
                     }
                     foundBanner = true;
-                } else if (item == BannerCapes.BANNER_CAPE) {
-                    if (foundCape) {
+                } else if (item == Items.ELYTRA) {
+                    if (foundElytra) {
                         return false;
                     }
-                    foundCape = true;
-                } else if (Nubbin.isNubbinable(cur)) {
-                    if (foundNubbin) {
-                        return false;
-                    }
-                    foundNubbin = true;
+                    foundElytra = true;
                 } else {
                     return false;
                 }
             }
         }
-        return foundCape;
+        return foundElytra && foundBanner;
     }
 
     @Override
     public ItemStack craft(CraftingInventory inv) {
         ItemStack banner = ItemStack.EMPTY;
-        ItemStack cape = ItemStack.EMPTY;
-        ItemStack nubbin = ItemStack.EMPTY;
+        ItemStack elytra = ItemStack.EMPTY;
         for (int i = 0; i < inv.getInvSize(); i++) {
             ItemStack cur = inv.getInvStack(i);
             if (!cur.isEmpty()) {
                 if (cur.getItem() instanceof BannerItem) {
                     banner = cur;
-                } else if (cur.getItem() == BannerCapes.BANNER_CAPE){
-                    cape = cur.copy();
-                } else if (Nubbin.isNubbinable(cur)) {
-                    nubbin = cur;
+                } else if (cur.getItem() == Items.ELYTRA){
+                    elytra = cur.copy();
                 }
             }
         }
-        if (cape.isEmpty()) {
-            return cape;
+        if (elytra.isEmpty() || banner.isEmpty()) {
+            return elytra;
         } else {
-            if (!banner.isEmpty()) {
-                CompoundTag tag = banner.getSubTag("BlockEntityTag");
-                tag = (tag == null) ? new CompoundTag() : tag.copy();
-                tag.putInt("Base", ((BannerItem)banner.getItem()).getColor().getId());
-                cape.putSubTag("BlockEntityTag", tag);
-            }
-            if (!nubbin.isEmpty()) {
-                cape.getOrCreateTag().putInt("Nubbins", Nubbin.indexFromItem(nubbin));
-            }
-            return cape;
+            CompoundTag tag = banner.getSubTag("BlockEntityTag");
+            tag = (tag == null) ? new CompoundTag() : tag.copy();
+            tag.putInt("Base", ((BannerItem)banner.getItem()).getColor().getId());
+            elytra.putSubTag("BlockEntityTag", tag);
+            return elytra;
         }
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public boolean fits(int width, int height) {
-        return width * height >= 3;
+        return width * height >= 2;
     }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return BannerCapes.BANNER_CAPE_DECORATION_SERIALIZER;
+        return BannerCapes.BANNER_ELYTRA_DECORATION_SERIALIZER;
     }
 }
