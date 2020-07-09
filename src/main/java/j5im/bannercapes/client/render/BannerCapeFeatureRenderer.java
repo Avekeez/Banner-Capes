@@ -51,7 +51,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 
     @Override
     public void render(MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float customAngle, float headYaw, float headPitch) {
-        if (player.isInvisible()) return;
+        // if (player.isInvisible()) return;
         TrinketComponent comp = TrinketsApi.getTrinketComponent(player);
         ItemStack capeStack = comp.getStack(SlotGroups.CHEST, Slots.CAPE);
         if (!capeStack.isEmpty() && capeStack.getItem() == BannerCapes.BANNER_CAPE) {
@@ -61,7 +61,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
                 matrix.translate(0, 0, 0.0625F);
             }
             matrix.push();
-            ITrinket.translateToChest(matrix, this.getContextModel(), player, headYaw, headPitch);
+            Trinket.translateToChest(matrix, this.getContextModel(), player, headYaw, headPitch);
             matrix.push();
             // shh magic numbers
             // multiples of 1/16 (pixel size), offset by 1/32 (originally had a pixel centered)
@@ -90,9 +90,9 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
     // Renders patterns
     private void renderPatterns(ItemStack stack, MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light, int overlay, SpriteIdentifier si) {
         // translates nbt to patterns
-        List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(BannerCapeItem.getDyeColor(stack), BannerBlockEntity.method_24281(stack));
+        List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(BannerCapeItem.getDyeColor(stack), BannerBlockEntity.getPatternListTag(stack));
         // uses the built in banner renderer for patterns
-        BannerBlockEntityRenderer.method_23802(matrix, vertexConsumerProvider, light, overlay, this.cape, si, true, list);
+        BannerBlockEntityRenderer.renderCanvas(matrix, vertexConsumerProvider, light, overlay, this.cape, si, true, list, false);
     }
 
     // Renders the nubbins, the lil things on the ends
@@ -109,9 +109,9 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
     private void renderRotation(MatrixStack matrixStack, AbstractClientPlayerEntity player, float dt) {
         // represents a desired direction for the cape to point in global space
         // generally will point in the opposite direction of player movement
-        double desiredX = MathHelper.lerp(dt, player.field_7524, player.field_7500) - MathHelper.lerp(dt, player.prevX, player.getX());
-        double desiredY = MathHelper.lerp(dt, player.field_7502, player.field_7521) - MathHelper.lerp(dt, player.prevY, player.getY());
-        double desiredZ = MathHelper.lerp(dt, player.field_7522, player.field_7499) - MathHelper.lerp(dt, player.prevZ, player.getZ());
+        double desiredX = MathHelper.lerp(dt, player.prevCapeX, player.capeX) - MathHelper.lerp(dt, player.prevX, player.getX());
+        double desiredY = MathHelper.lerp(dt, player.prevCapeY, player.capeY) - MathHelper.lerp(dt, player.prevY, player.getY());
+        double desiredZ = MathHelper.lerp(dt, player.prevCapeZ, player.capeZ) - MathHelper.lerp(dt, player.prevZ, player.getZ());
 
         // vector pointing towards the back of the player's body
         float bodyYaw = player.bodyYaw;
@@ -125,7 +125,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
         speedPitch = MathHelper.clamp(speedPitch, 0.0F, 150.0F);
 
         // make the cape wibblewobble up and down when the player is walking
-        float speed = MathHelper.lerp(dt, player.field_7505, player.field_7483);
+        float speed = MathHelper.lerp(dt, player.prevStrideDistance, player.strideDistance);
         pitch += MathHelper.sin(MathHelper.lerp(dt, player.prevHorizontalSpeed, player.horizontalSpeed) * 6.0F) * 32.0F * speed;
 
         // adjust the yaw if the player movement is not aligned with the back

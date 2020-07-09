@@ -27,8 +27,8 @@ public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
         boolean foundCape = false;
         boolean foundBanner = false;
         boolean foundNubbin = false;
-        for (int i = 0; i < inv.getInvSize(); i++) {
-            ItemStack cur = inv.getInvStack(i);
+        for (int i = 0; i < inv.size(); i++) {
+            ItemStack cur = inv.getStack(i);
             if (!cur.isEmpty()) {
                 Item item = cur.getItem();
                 if (item instanceof BannerItem) {
@@ -59,8 +59,8 @@ public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
         ItemStack banner = ItemStack.EMPTY;
         ItemStack cape = ItemStack.EMPTY;
         ItemStack nubbin = ItemStack.EMPTY;
-        for (int i = 0; i < inv.getInvSize(); i++) {
-            ItemStack cur = inv.getInvStack(i);
+        for (int i = 0; i < inv.size(); i++) {
+            ItemStack cur = inv.getStack(i);
             if (!cur.isEmpty()) {
                 if (cur.getItem() instanceof BannerItem) {
                     banner = cur;

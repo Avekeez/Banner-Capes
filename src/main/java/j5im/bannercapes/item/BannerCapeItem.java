@@ -1,39 +1,37 @@
 package j5im.bannercapes.item;
 
-import dev.emi.trinkets.api.ITrinket;
 import dev.emi.trinkets.api.SlotGroups;
 import dev.emi.trinkets.api.Slots;
-
-import j5im.bannercapes.BannerCapes;
+import dev.emi.trinkets.api.TrinketItem;
 
 import j5im.bannercapes.Nubbin;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-import net.minecraft.block.DispenserBlock;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.BannerItem;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 import java.util.List;
 
-public class BannerCapeItem extends Item implements ITrinket {
+public class BannerCapeItem extends TrinketItem {
     public BannerCapeItem() {
         super(new Settings().group(ItemGroup.MISC).maxCount(1).rarity(Rarity.RARE));
-        DispenserBlock.registerBehavior(this, TRINKET_DISPENSER_BEHAVIOR);
-
-        this.addPropertyGetter(new Identifier(BannerCapes.MOD_ID, "has_banner"), (stack, world, entity) -> stack.getSubTag("BlockEntityTag") != null ? 1 : 0);
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        TypedActionResult<ItemStack> result = ITrinket.equipTrinket(player, hand);
+        TypedActionResult<ItemStack> result = super.use(world, player, hand);
         if (result.getResult().isAccepted()) {
             player.playSound(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1.0f, 1.0f);
         }
