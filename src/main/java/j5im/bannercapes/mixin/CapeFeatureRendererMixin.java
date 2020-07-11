@@ -5,6 +5,7 @@ import dev.emi.trinkets.api.TrinketsApi;
 
 import j5im.bannercapes.BannerCapes;
 
+import j5im.bannercapes.interfaces.BannerCapeable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -33,7 +34,7 @@ public class CapeFeatureRendererMixin {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
         ItemStack capeStack = TrinketsApi.getTrinketComponent(abstractClientPlayerEntity).getStack(SlotGroups.CHEST);
-        if (!capeStack.isEmpty() && capeStack.getItem() == BannerCapes.BANNER_CAPE) {
+        if (!capeStack.isEmpty() && capeStack.getItem() instanceof BannerCapeable) {
             ci.cancel();
         }
     }

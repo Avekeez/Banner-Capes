@@ -11,8 +11,8 @@ public class BannerCapesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-                    if (tintIndex == 2) return BannerCapeItem.getBaseColor(stack);
-                    if (tintIndex == 1) return BannerCapeItem.getNubbinColor(stack);
+                    if (tintIndex == 2) return BannerCapeItem.getBaseColorStatic(stack);
+                    if (tintIndex == 1) return BannerCapeItem.getNubbinColorStatic(stack);
                     return -1;
                 },
                 BannerCapes.BANNER_CAPE);

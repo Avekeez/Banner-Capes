@@ -42,11 +42,14 @@ public class BannerPatternMatcher {
         }
 
         public boolean matches(ItemStack stack) {
-            List<Pair<BannerPattern, DyeColor>> stackPatterns = BannerBlockEntity.method_24280(BannerCapeItem.getDyeColor(stack), BannerBlockEntity.getPatternListTag(stack));
+            List<Pair<BannerPattern, DyeColor>> stackPatterns = BannerBlockEntity.method_24280(
+                    BannerCapeItem.getDyeColorStatic(stack),
+                    BannerBlockEntity.getPatternListTag(stack));
             int templateIndex = 0;
             for (Pair<BannerPattern, DyeColor> pattern : stackPatterns) {
                 Pair<BannerPattern, DyeColor> tempPattern = template.get(templateIndex);
-                if (pattern.getFirst().equals(tempPattern.getFirst()) && pattern.getSecond().equals(tempPattern.getSecond())) {
+                if (pattern.getFirst().equals(tempPattern.getFirst()) &&
+                        pattern.getSecond().equals(tempPattern.getSecond())) {
                     templateIndex++;
                     if (templateIndex >= template.size()) {
                         return true;

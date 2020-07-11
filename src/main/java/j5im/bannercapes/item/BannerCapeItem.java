@@ -1,17 +1,20 @@
 package j5im.bannercapes.item;
 
-import dev.emi.trinkets.api.SlotGroups;
-import dev.emi.trinkets.api.Slots;
+import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
 
+import j5im.bannercapes.BannerCapes;
 import j5im.bannercapes.Nubbin;
 
+import j5im.bannercapes.interfaces.BannerCapeable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BannerItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -24,14 +27,25 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class BannerCapeItem extends TrinketItem {
+public class BannerCapeItem extends Item implements Trinket, BannerCapeable {
     public BannerCapeItem() {
         super(new Settings().group(ItemGroup.MISC).maxCount(1).rarity(Rarity.RARE));
+        DispenserBlock.registerBehavior(this, BannerCapes.STACKABLE_TRINKET_DISPENSER_BEHAVIOR);
+    }
+
+    @Override
+    public boolean hasCollar() {
+        return true;
+    }
+
+    @Override
+    public boolean hasNubbins() {
+        return true;
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        TypedActionResult<ItemStack> result = super.use(world, player, hand);
+        TypedActionResult<ItemStack> result = Trinket.equipTrinket(player, hand);
         if (result.getResult().isAccepted()) {
             player.playSound(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1.0f, 1.0f);
         }
@@ -40,7 +54,7 @@ public class BannerCapeItem extends TrinketItem {
 
     @Override
     public boolean canWearInSlot(String group, String slot) {
-        return group.equals(SlotGroups.CHEST) && slot.equals(Slots.CAPE);
+        return BannerCapeable.canWearInSlot(group, slot);
     }
 
     @Environment(EnvType.CLIENT)
@@ -81,6 +95,11 @@ public class BannerCapeItem extends TrinketItem {
     }
 
     @Override
+    public boolean hasBanner(ItemStack stack) {
+        return stack.getSubTag("BlockEntityTag") != null;
+    }
+
+    @Override
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
         if (this.isIn(group)) {
             ItemStack stack = new ItemStack(this);
@@ -89,7 +108,23 @@ public class BannerCapeItem extends TrinketItem {
         }
     }
 
-    public static DyeColor getDyeColor(ItemStack stack) {
+    public int getBaseColor(ItemStack stack) {
+        return getBaseColor(stack);
+    }
+
+    public DyeColor getDyeColor(ItemStack stack) {
+        return getDyeColorStatic(stack);
+    }
+
+    public static int getBaseColorStatic(ItemStack stack) {
+        DyeColor color = getDyeColorStatic(stack);
+        if (color == null) {
+            return -1;
+        }
+        return color.getMaterialColor().color;
+    }
+
+    public static DyeColor getDyeColorStatic(ItemStack stack) {
         CompoundTag tag = stack.getSubTag("BlockEntityTag");
         if (tag == null) {
             return null;
@@ -97,15 +132,7 @@ public class BannerCapeItem extends TrinketItem {
         return DyeColor.byId(tag.getInt("Base"));
     }
 
-    public static int getBaseColor(ItemStack stack) {
-        DyeColor color = getDyeColor(stack);
-        if (color == null) {
-            return -1;
-        }
-        return color.getMaterialColor().color;
-    }
-
-    public static int getNubbinColor(ItemStack stack) {
+    public static int getNubbinColorStatic(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         if (!tag.contains("Nubbins")) {
             tag.putInt("Nubbins", 0);

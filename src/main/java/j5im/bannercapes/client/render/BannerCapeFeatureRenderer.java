@@ -1,13 +1,9 @@
 package j5im.bannercapes.client.render;
 
 import com.mojang.datafixers.util.Pair;
-
 import dev.emi.trinkets.api.*;
-
-import j5im.bannercapes.BannerCapes;
 import j5im.bannercapes.Nubbin;
-import j5im.bannercapes.item.BannerCapeItem;
-
+import j5im.bannercapes.interfaces.BannerCapeable;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.model.ModelPart;
@@ -51,10 +47,11 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 
     @Override
     public void render(MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float customAngle, float headYaw, float headPitch) {
-        // if (player.isInvisible()) return;
         TrinketComponent comp = TrinketsApi.getTrinketComponent(player);
         ItemStack capeStack = comp.getStack(SlotGroups.CHEST, Slots.CAPE);
-        if (!capeStack.isEmpty() && capeStack.getItem() == BannerCapes.BANNER_CAPE) {
+
+        if (!capeStack.isEmpty() && capeStack.getItem() instanceof BannerCapeable) {
+            BannerCapeable capeItem = (BannerCapeable)capeStack.getItem();
             SpriteIdentifier bb_si = ModelLoader.BANNER_BASE;
             VertexConsumer bb_vc = bb_si.getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntitySolid);
             if (!player.getEquippedStack(EquipmentSlot.CHEST).isEmpty()) {
@@ -62,15 +59,19 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
             }
             matrix.push();
             Trinket.translateToChest(matrix, this.getContextModel(), player, headYaw, headPitch);
+
             matrix.push();
             // shh magic numbers
             // multiples of 1/16 (pixel size), offset by 1/32 (originally had a pixel centered)
             // places it so one of the edges of the collar is at the top of the back
             matrix.translate(0, -0.4375F, 0.28125F);
-            this.collar.render(matrix, bb_vc, light, OverlayTexture.DEFAULT_UV);
-            renderNubbins(capeStack, matrix, vertexConsumerProvider, light);
+            if (capeItem.hasCollar())
+                this.collar.render(matrix, bb_vc, light, OverlayTexture.DEFAULT_UV);
+            if (capeItem.hasNubbins())
+                renderNubbins(capeStack, matrix, vertexConsumerProvider, light);
             matrix.pop();
-            if (capeStack.getSubTag("BlockEntityTag") != null) {
+
+            if (capeItem.hasBanner(capeStack)) {
                 matrix.push();
                 // Same deal as above, but this time the offset is just to make it clip less
                 // places the cape so the top is half a pixel into the collar
@@ -80,17 +81,16 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
                 // the player
                 matrix.scale(0.5F, 0.5F, 1F);
                 this.cape.render(matrix, bb_vc, light, OverlayTexture.DEFAULT_UV);
-                renderPatterns(capeStack, matrix, vertexConsumerProvider, light, OverlayTexture.DEFAULT_UV, bb_si);
+                renderPatterns(capeItem, capeStack, matrix, vertexConsumerProvider, light, OverlayTexture.DEFAULT_UV, bb_si);
                 matrix.pop();
             }
             matrix.pop();
         }
     }
 
-    // Renders patterns
-    private void renderPatterns(ItemStack stack, MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light, int overlay, SpriteIdentifier si) {
+    private void renderPatterns(BannerCapeable item, ItemStack stack, MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light, int overlay, SpriteIdentifier si) {
         // translates nbt to patterns
-        List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(BannerCapeItem.getDyeColor(stack), BannerBlockEntity.getPatternListTag(stack));
+        List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(item.getDyeColor(stack), BannerBlockEntity.getPatternListTag(stack));
         // uses the built in banner renderer for patterns
         BannerBlockEntityRenderer.renderCanvas(matrix, vertexConsumerProvider, light, overlay, this.cape, si, true, list, false);
     }
