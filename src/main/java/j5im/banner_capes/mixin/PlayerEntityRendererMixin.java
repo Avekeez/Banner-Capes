@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
 @Mixin(PlayerEntityRenderer.class)
-public class PlayerEntityRendererMixin extends LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
+public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
 
     public PlayerEntityRendererMixin(EntityRendererFactory.Context ctx, PlayerEntityModel<AbstractClientPlayerEntity> model, float f) {
         super(ctx, model, f);
@@ -34,10 +34,5 @@ public class PlayerEntityRendererMixin extends LivingEntityRenderer<AbstractClie
     public void init(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci) {
         BannerCapes.log(Level.DEBUG, "PlayerEntityRenderer mix'd-in!");
         this.addFeature(new BannerCapeFeatureRenderer(this));
-    }
-
-    @Override
-    public Identifier getTexture(AbstractClientPlayerEntity abstractClientPlayerEntity) {
-        return abstractClientPlayerEntity.getSkinTexture();
     }
 }
