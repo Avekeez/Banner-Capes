@@ -35,8 +35,9 @@ public class BannerPatternMatcher {
     // cool and groovy name
     // it was a toss-up between this and bannerbannerpatternpattern
     public static class BannerPatternPattern {
-        List<Pair<BannerPattern, DyeColor>> template;
+        final List<Pair<BannerPattern, DyeColor>> template;
 
+        @SafeVarargs
         BannerPatternPattern(Pair<BannerPattern, DyeColor>... patterns) {
             this.template = Lists.newArrayList(patterns);
         }

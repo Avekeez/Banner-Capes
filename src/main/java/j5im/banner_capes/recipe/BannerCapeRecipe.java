@@ -18,8 +18,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 // one banner cape and/or at most one banner or nubbin = banner cape with the banner patterns and nubbin
-public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
-    public BannerCapeDecorationRecipe(Identifier id) {
+public class BannerCapeRecipe extends SpecialCraftingRecipe {
+    public BannerCapeRecipe(Identifier id) {
         super(id);
     }
 
@@ -132,6 +132,6 @@ public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return BannerCapes.BANNER_CAPE_DECORATION_SERIALIZER;
+        return BannerCapes.BANNER_CAPE_SERIALIZER;
     }
 }

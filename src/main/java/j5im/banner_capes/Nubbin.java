@@ -1,17 +1,29 @@
 package j5im.banner_capes;
 
+import j5im.banner_capes.config.DecorationMaterialConfig;
+import j5im.banner_capes.utils.ColorUtils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Nubbin {
-    public static final Nubbin[] NUBBINS = {
-            new Nubbin("textures/block/iron_block.png", Items.IRON_NUGGET, 15724543), // default value
-            new Nubbin("textures/block/gold_block.png", Items.GOLD_NUGGET, 16772175),
-            new Nubbin("textures/block/diamond_block.png", Items.DIAMOND, 6682083),
-            new Nubbin("textures/block/lapis_block.png", Items.LAPIS_LAZULI, 1849488)
-    };
+
+    public static Nubbin[] initNubbins() {
+        List<Nubbin> nubbinList = new ArrayList<>();
+        for (DecorationMaterialConfig configItem : BannerCapes.config().decorationMaterials) {
+            if(configItem.isNubbin) {
+                nubbinList.add(new Nubbin(configItem.texturePath, configItem.itemIdentifier , ColorUtils.RGBtoDecimalColor(configItem.colorR, configItem.colorG, configItem.colorB)));
+            }
+        }
+
+        return nubbinList.toArray(new Nubbin[nubbinList.size()]);
+    }
+
+    public static final Nubbin[] NUBBINS = initNubbins();
 
     // returns null if the index is invalid
     public static Identifier textureFromIndex(int nubbinIndex) {
@@ -37,8 +49,8 @@ public class Nubbin {
 
     public static boolean isNubbinable(ItemStack stack) {
         if (stack.isEmpty()) return false;
-        for (int i = 0; i < NUBBINS.length; i++) {
-            if (NUBBINS[i].matches(stack.getItem())) {
+        for (Nubbin nubbin : NUBBINS) {
+            if (nubbin.matches(stack.getItem())) {
                 return true;
             }
         }
@@ -56,12 +68,12 @@ public class Nubbin {
         return -1;
     }
 
-    private Identifier srcTex;
-    private Item srcItem;
-    private int color;
-    private Nubbin(String tex, Item item, int itemColor) {
+    private final Identifier srcTex;
+    private final Item srcItem;
+    private final int color;
+    private Nubbin(String tex, String item, int itemColor) {
         srcTex = new Identifier(tex);
-        srcItem = item;
+        srcItem = Registry.ITEM.get(Identifier.tryParse(item));
         color = itemColor;
     }
 

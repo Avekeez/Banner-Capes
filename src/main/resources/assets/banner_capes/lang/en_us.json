@@ -1,6 +1,8 @@
 {
 	"item.banner_capes.banner_cape": "Banner Cape",
 	"item.banner_capes.banner_cape.empty": "Bannerless",
+	"item.banner_capes.banner_cape.collar": "%s collar",
+	"item.banner_capes.banner_cape.no_collar": "No collar",
 	"item.banner_capes.banner_cape.nubbins": "%s nubbins",
 	"item.banner_capes.banner_cape.no_nubbins": "No nubbins",
 	"advancements.banner_capes.root.title": "Cape'd and Banner'd",

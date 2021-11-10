@@ -18,6 +18,12 @@
     ],
     "main": [
       "j5im.banner_capes.BannerCapes"
+    ],
+    "modmenu": [
+      "j5im.banner_capes.compat.ModMenuCompat"
+    ],
+    "playerex": [
+      "j5im.banner_capes.compat.PlayerExCompat"
     ]
   },
   "mixins": [
@@ -27,6 +33,7 @@
     "fabricloader": ">=0.12.5",
     "fabric": "*",
     "minecraft": ">=1.17.1",
-    "trinkets": ">=3.0.4"
+    "trinkets": ">=3.0.4",
+    "playerex": ">=3.0.6"
   }
 }

@@ -4,7 +4,6 @@
   "package": "j5im.banner_capes.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "BannerItemMixin"
   ],
   "client": [
 	"PlayerEntityRendererMixin",

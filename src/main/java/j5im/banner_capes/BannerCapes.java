@@ -1,13 +1,12 @@
 package j5im.banner_capes;
 
-import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketItem;
-import dev.emi.trinkets.api.TrinketsApi;
+import j5im.banner_capes.config.BannerCapesConfig;
 import j5im.banner_capes.item.BannerCapeItem;
-import j5im.banner_capes.recipe.BannerCapeDecorationRecipe;
-
+import j5im.banner_capes.recipe.BannerCapeRecipe;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.DispenserBehavior;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
@@ -22,7 +21,6 @@ import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,7 +37,6 @@ public class BannerCapes implements ModInitializer {
             if (!entities.isEmpty()) {
                 LivingEntity entity = entities.get(0);
                 if (entity instanceof PlayerEntity) {
-                    TrinketComponent comp = TrinketsApi.getTrinketComponent((PlayerEntity)entity).get();
                     if (TrinketItem.equipItem((PlayerEntity) entity,stack)) {
                         stack.decrement(1);
                         return stack;
@@ -50,20 +47,25 @@ public class BannerCapes implements ModInitializer {
         }
     };
 
-    public static Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public static final String MOD_ID = "banner_capes";
     public static final String MOD_NAME = "Banner Capes";
 
     public static final Item BANNER_CAPE = new BannerCapeItem();
-    public static final SpecialRecipeSerializer BANNER_CAPE_DECORATION_SERIALIZER = Registry.register(
+    public static final SpecialRecipeSerializer<BannerCapeRecipe> BANNER_CAPE_SERIALIZER = Registry.register(
             Registry.RECIPE_SERIALIZER,
-            "crafting_special_bannercapedecoration",
-            new SpecialRecipeSerializer<>(BannerCapeDecorationRecipe::new));
+            "crafting_special_bannercape",
+            new SpecialRecipeSerializer<>(BannerCapeRecipe::new));
+
+    public static BannerCapesConfig config() {
+        return AutoConfig.getConfigHolder(BannerCapesConfig.class).get();
+    }
 
     @Override
     public void onInitialize() {
         log(Level.INFO, "Initializing");
+        AutoConfig.register(BannerCapesConfig.class, GsonConfigSerializer::new);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "banner_cape"), BANNER_CAPE);
     }
 

@@ -1,21 +1,19 @@
 package j5im.banner_capes.item;
 
-import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
 
 import j5im.banner_capes.BannerCapes;
 import j5im.banner_capes.BannerPatternMatcher;
+import j5im.banner_capes.Collar;
 import j5im.banner_capes.Nubbin;
 import j5im.banner_capes.interfaces.BannerCapeable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-import net.minecraft.block.AbstractBannerBlock;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BannerItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -26,7 +24,6 @@ import net.minecraft.util.*;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
-import org.jetbrains.annotations.Debug;
 
 import java.util.List;
 
@@ -52,11 +49,11 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
         if (TrinketItem.equipItem(player, handStack)) {
             player.playSound(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1.0f, 1.0f);
             handStack.decrement(1);
-            return new TypedActionResult<ItemStack>(ActionResult.SUCCESS, handStack);
+            return new TypedActionResult<>(ActionResult.SUCCESS, handStack);
         }
         else
         {
-            return new TypedActionResult<ItemStack>(ActionResult.FAIL, handStack);
+            return new TypedActionResult<>(ActionResult.FAIL, handStack);
         }
     }
 
@@ -69,6 +66,8 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
         }
         int nubbins = stack.getOrCreateNbt().getInt("Nubbins");
         tooltip.add(new TranslatableText("item.banner_capes.banner_cape.nubbins", new TranslatableText(Nubbin.nameFromIndex(nubbins))).formatted(Formatting.GRAY));
+        int collar = stack.getOrCreateNbt().getInt("Collar");
+        tooltip.add(new TranslatableText("item.banner_capes.banner_cape.collar", new TranslatableText(Collar.nameFromIndex(collar))).formatted(Formatting.GRAY));
         if (patterns != null) {
             String baseColor = DyeColor.byId(patterns.getInt("Base")).getName();
             tooltip.add(new TranslatableText("block.minecraft." + baseColor + "_banner").formatted(Formatting.GRAY));
@@ -99,6 +98,7 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
         if (this.isIn(group)) {
             ItemStack stack = new ItemStack(this);
             stack.getOrCreateNbt().putInt("Nubbins", 0);
+            stack.getOrCreateNbt().putInt("Collar", 0);
             stacks.add(stack);
         }
     }
@@ -134,6 +134,15 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
             tag.putInt("Nubbins", 0);
         }
         int nubbinIndex = tag.getInt("Nubbins");
+        return Nubbin.itemColorFromIndex(nubbinIndex);
+    }
+
+    public static int getCollarColorStatic(ItemStack stack) {
+        NbtCompound tag = stack.getOrCreateNbt();
+        if (!tag.contains("Collar")) {
+            tag.putInt("Collar", 0);
+        }
+        int nubbinIndex = tag.getInt("Collar");
         return Nubbin.itemColorFromIndex(nubbinIndex);
     }
 }
