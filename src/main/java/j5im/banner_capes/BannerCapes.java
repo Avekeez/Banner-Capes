@@ -1,9 +1,10 @@
-package j5im.bannercapes;
+package j5im.banner_capes;
 
 import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketItem;
 import dev.emi.trinkets.api.TrinketsApi;
-import j5im.bannercapes.item.BannerCapeItem;
-import j5im.bannercapes.recipe.BannerCapeDecorationRecipe;
+import j5im.banner_capes.item.BannerCapeItem;
+import j5im.banner_capes.recipe.BannerCapeDecorationRecipe;
 
 import net.fabricmc.api.ModInitializer;
 
@@ -33,14 +34,13 @@ public class BannerCapes implements ModInitializer {
     // up all at once or on failure
     public static final DispenserBehavior STACKABLE_TRINKET_DISPENSER_BEHAVIOR = new ItemDispenserBehavior() {
         protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-            BlockPos pos = pointer.getBlockPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
-            List<LivingEntity> entities = pointer.getWorld().getEntities(LivingEntity.class, new Box(pos), EntityPredicates.EXCEPT_SPECTATOR.and(new EntityPredicates.CanPickup(stack)));
+            BlockPos pos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
+            List<LivingEntity> entities = pointer.getWorld().getEntitiesByClass(LivingEntity.class, new Box(pos), EntityPredicates.EXCEPT_SPECTATOR);
             if (!entities.isEmpty()) {
                 LivingEntity entity = entities.get(0);
                 if (entity instanceof PlayerEntity) {
-                    TrinketComponent comp = TrinketsApi.getTrinketComponent((PlayerEntity)entity);
-                    ItemStack test = stack.copy().split(1);
-                    if (comp.equip(test)) {
+                    TrinketComponent comp = TrinketsApi.getTrinketComponent((PlayerEntity)entity).get();
+                    if (TrinketItem.equipItem((PlayerEntity) entity,stack)) {
                         stack.decrement(1);
                         return stack;
                     }

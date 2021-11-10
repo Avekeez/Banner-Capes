@@ -1,4 +1,4 @@
-package j5im.bannercapes;
+package j5im.banner_capes;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

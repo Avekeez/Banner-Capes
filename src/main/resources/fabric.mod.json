@@ -5,27 +5,28 @@
   "name": "Banner Capes",
   "description": "A mod that lets you wear a banner as a cape.",
   "authors": [
-    "J5imothy"
+    "J5imothy",
+	"EndersReboot"
   ],
-  "contributors": [],
   "contact": {},
   "license": "MIT",
   "icon": "assets/banner_capes/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "j5im.bannercapes.BannerCapes"
-    ],
     "client": [
-	  "j5im.bannercapes.BannerCapesClient"
-	]
+      "j5im.banner_capes.client.BannerCapesClient"
+    ],
+    "main": [
+      "j5im.banner_capes.BannerCapes"
+    ]
   },
   "mixins": [
     "banner_capes.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.4.0",
+    "fabricloader": ">=0.12.5",
     "fabric": "*",
-    "trinkets": ">=2.6.2"
+    "minecraft": ">=1.17.1",
+    "trinkets": ">=3.0.4"
   }
 }

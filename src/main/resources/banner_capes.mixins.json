@@ -1,7 +1,8 @@
 {
   "required": true,
-  "package": "j5im.bannercapes.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
+  "package": "j5im.banner_capes.mixin",
+  "compatibilityLevel": "JAVA_16",
   "mixins": [
     "BannerItemMixin"
   ],
@@ -9,7 +10,6 @@
 	"PlayerEntityRendererMixin",
 	"CapeFeatureRendererMixin"
   ],
-  "server": [],
   "injectors": {
     "defaultRequire": 1
   }

@@ -1,8 +1,8 @@
-package j5im.bannercapes;
+package j5im.banner_capes;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
-import j5im.bannercapes.item.BannerCapeItem;
+import j5im.banner_capes.item.BannerCapeItem;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.item.ItemStack;
@@ -42,11 +42,13 @@ public class BannerPatternMatcher {
         }
 
         public boolean matches(ItemStack stack) {
-            List<Pair<BannerPattern, DyeColor>> stackPatterns = BannerBlockEntity.method_24280(
+            List<Pair<BannerPattern, DyeColor>> stackPatterns = BannerBlockEntity.getPatternsFromNbt(
                     BannerCapeItem.getDyeColorStatic(stack),
                     BannerBlockEntity.getPatternListTag(stack));
             int templateIndex = 0;
             for (Pair<BannerPattern, DyeColor> pattern : stackPatterns) {
+                if(pattern.getFirst() == null || pattern.getSecond() == null) continue;
+
                 Pair<BannerPattern, DyeColor> tempPattern = template.get(templateIndex);
                 if (pattern.getFirst().equals(tempPattern.getFirst()) &&
                         pattern.getSecond().equals(tempPattern.getSecond())) {

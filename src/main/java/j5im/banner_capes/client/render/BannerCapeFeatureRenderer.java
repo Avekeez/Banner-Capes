@@ -1,9 +1,12 @@
-package j5im.bannercapes.client.render;
+package j5im.banner_capes.client.render;
 
 import com.mojang.datafixers.util.Pair;
-import dev.emi.trinkets.api.*;
-import j5im.bannercapes.Nubbin;
-import j5im.bannercapes.interfaces.BannerCapeable;
+import dev.emi.trinkets.api.Trinket;
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketsApi;
+import dev.emi.trinkets.api.client.TrinketRenderer;
+import j5im.banner_capes.Nubbin;
+import j5im.banner_capes.interfaces.BannerCapeable;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.model.ModelPart;
@@ -19,36 +22,42 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3f;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
+
     private final ModelPart collar;
     private final ModelPart cape;
     private final ModelPart nubbins;
+
     public BannerCapeFeatureRenderer(FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> context) {
         super(context);
-        // will use the default banner_base texture, with the wood
-        this.collar = new ModelPart(64, 64, 0, 42);
-        this.collar.addCuboid(-4.0F, 0.0F, 0.0F, 8.0F, 1.0F, 1.0F, 0.0F);
-        this.cape = new ModelPart(64, 64, 0, 0);
-        this.cape.addCuboid(-10.0F, 0.0F, 0.0F, 20.0F, 40.0F, 1.0F, 0.0F);
-
-        this.nubbins = new ModelPart(16, 16, 8, 8);
-        this.nubbins.addCuboid(-5.1f, 0, 0, 1.1f, 1f, 1, 0);
-        this.nubbins.addCuboid(4f, 0, 0, 1.1f, 1, 1, 0);
+        List<ModelPart.Cuboid> collarParts = new ArrayList<ModelPart.Cuboid>();
+        collarParts.add(new ModelPart.Cuboid(0,42,-4.0F, 0.0F, 0.0F, 8.0F, 1.0F, 1.0F, 0.0F,0.0F,0.0F, false, 64,64));
+        collar = new ModelPart(collarParts, Map.of());
+        List<ModelPart.Cuboid> capeParts = new ArrayList<ModelPart.Cuboid>();
+        capeParts.add(new ModelPart.Cuboid(0,0,-10.0F, 0.0F, 0.0F, 20.0F, 40.0F, 1.0F, 0.0F,0.0F,0.0F, false, 64,64));
+        cape = new ModelPart(capeParts, Map.of());
+        List<ModelPart.Cuboid> nubbinsParts = new ArrayList<ModelPart.Cuboid>();
+        nubbinsParts.add(new ModelPart.Cuboid(8,8,-5.1F, 0.0F, 0.0F, 1.1F, 1.0F, 1.0F, 0.0F,0.0F,0.0F, false, 16,16));
+        nubbinsParts.add(new ModelPart.Cuboid(8,8,4.0F, 0.0F, 0.0F, 1.1F, 1.0F, 1.0F, 0.0F,0.0F,0.0F, false, 16,16));
+        nubbins = new ModelPart(nubbinsParts, Map.of());
     }
 
     @Override
     public void render(MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float customAngle, float headYaw, float headPitch) {
-        TrinketComponent comp = TrinketsApi.getTrinketComponent(player);
-        ItemStack capeStack = comp.getStack(SlotGroups.CHEST, Slots.CAPE);
+        TrinketComponent comp = TrinketsApi.getTrinketComponent(player).get();
+        ItemStack capeStack = comp.getInventory().get("chest").get("cape").getStack(0);
 
         if (!capeStack.isEmpty() && capeStack.getItem() instanceof BannerCapeable) {
             BannerCapeable capeItem = (BannerCapeable)capeStack.getItem();
@@ -58,7 +67,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
                 matrix.translate(0, 0, 0.0625F);
             }
             matrix.push();
-            Trinket.translateToChest(matrix, this.getContextModel(), player, headYaw, headPitch);
+            TrinketRenderer.translateToChest(matrix, this.getContextModel(), player);
 
             matrix.push();
             // shh magic numbers
@@ -90,14 +99,14 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 
     private void renderPatterns(BannerCapeable item, ItemStack stack, MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light, int overlay, SpriteIdentifier si) {
         // translates nbt to patterns
-        List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(item.getDyeColor(stack), BannerBlockEntity.getPatternListTag(stack));
+        List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.getPatternsFromNbt(item.getDyeColor(stack), BannerBlockEntity.getPatternListTag(stack));
         // uses the built in banner renderer for patterns
         BannerBlockEntityRenderer.renderCanvas(matrix, vertexConsumerProvider, light, overlay, this.cape, si, true, list, false);
     }
 
     // Renders the nubbins, the lil things on the ends
     private void renderNubbins(ItemStack capeStack, MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light) {
-        Identifier tex = Nubbin.textureFromIndex(capeStack.getOrCreateTag().getInt("Nubbins"));
+        Identifier tex = Nubbin.textureFromIndex(capeStack.getOrCreateNbt().getInt("Nubbins"));
         if (tex == null) tex = Nubbin.textureFromIndex(0);
 
         VertexConsumer nub_vc = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(tex));
@@ -132,8 +141,8 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
         float yaw = (float)(desiredX * backDirZ - desiredZ * backDirX) * 100.0F;
         yaw = MathHelper.clamp(yaw, -20.0F, 20.0F);
 
-        matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(6.0F + speedPitch / 2.0F + pitch));
-        matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(yaw / 2.0F));
-        matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180.0F - yaw / 2.0F));
+        matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(6.0F + speedPitch / 2.0F + pitch));
+        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(yaw / 2.0F));
+        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - yaw / 2.0F));
     }
 }

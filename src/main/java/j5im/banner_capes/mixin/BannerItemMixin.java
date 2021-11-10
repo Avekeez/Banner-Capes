@@ -1,10 +1,11 @@
-package j5im.bannercapes.mixin;
+package j5im.banner_capes.mixin;
 
 import dev.emi.trinkets.api.Trinket;
-import j5im.bannercapes.BannerCapes;
-import j5im.bannercapes.interfaces.BannerCapeable;
+import j5im.banner_capes.BannerCapes;
+import j5im.banner_capes.interfaces.BannerCapeable;
 import net.minecraft.block.Block;
 import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.Material;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.WallStandingBlockItem;
@@ -29,18 +30,13 @@ public abstract class BannerItemMixin extends WallStandingBlockItem implements T
     }
 
     @Override
-    public boolean canWearInSlot(String group, String slot) {
-        return BannerCapeable.canWearInSlot(group, slot);
-    }
-
-    @Override
     public boolean hasBanner(ItemStack stack) {
         return true;
     }
 
     @Override
     public int getBaseColor(ItemStack stack) {
-        return getDyeColor(stack).getMaterialColor().color;
+        return getDyeColor(stack).getId();
     }
 
     @Override
@@ -49,5 +45,5 @@ public abstract class BannerItemMixin extends WallStandingBlockItem implements T
     }
 
     @Shadow
-    abstract DyeColor getColor();
+    abstract public DyeColor getColor();
 }

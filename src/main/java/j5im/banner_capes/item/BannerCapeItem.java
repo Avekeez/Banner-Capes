@@ -1,15 +1,16 @@
-package j5im.bannercapes.item;
+package j5im.banner_capes.item;
 
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
 
-import j5im.bannercapes.BannerCapes;
-import j5im.bannercapes.Nubbin;
-
-import j5im.bannercapes.interfaces.BannerCapeable;
+import j5im.banner_capes.BannerCapes;
+import j5im.banner_capes.BannerPatternMatcher;
+import j5im.banner_capes.Nubbin;
+import j5im.banner_capes.interfaces.BannerCapeable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
+import net.minecraft.block.AbstractBannerBlock;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,17 +18,19 @@ import net.minecraft.item.BannerItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
+import org.jetbrains.annotations.Debug;
 
 import java.util.List;
 
-public class BannerCapeItem extends Item implements Trinket, BannerCapeable {
+public class BannerCapeItem extends TrinketItem implements BannerCapeable {
     public BannerCapeItem() {
         super(new Settings().group(ItemGroup.MISC).maxCount(1).rarity(Rarity.RARE));
         DispenserBlock.registerBehavior(this, BannerCapes.STACKABLE_TRINKET_DISPENSER_BEHAVIOR);
@@ -45,26 +48,26 @@ public class BannerCapeItem extends Item implements Trinket, BannerCapeable {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        TypedActionResult<ItemStack> result = Trinket.equipTrinket(player, hand);
-        if (result.getResult().isAccepted()) {
+        ItemStack handStack = player.getStackInHand(hand);
+        if (TrinketItem.equipItem(player, handStack)) {
             player.playSound(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1.0f, 1.0f);
+            handStack.decrement(1);
+            return new TypedActionResult<ItemStack>(ActionResult.SUCCESS, handStack);
         }
-        return result;
-    }
-
-    @Override
-    public boolean canWearInSlot(String group, String slot) {
-        return BannerCapeable.canWearInSlot(group, slot);
+        else
+        {
+            return new TypedActionResult<ItemStack>(ActionResult.FAIL, handStack);
+        }
     }
 
     @Environment(EnvType.CLIENT)
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-        CompoundTag patterns = stack.getSubTag("BlockEntityTag");
+        NbtCompound patterns = stack.getSubNbt("BlockEntityTag");
 
         if (patterns == null) {
             tooltip.add(new TranslatableText("item.banner_capes.banner_cape.empty").formatted(Formatting.GRAY));
         }
-        int nubbins = stack.getOrCreateTag().getInt("Nubbins");
+        int nubbins = stack.getOrCreateNbt().getInt("Nubbins");
         tooltip.add(new TranslatableText("item.banner_capes.banner_cape.nubbins", new TranslatableText(Nubbin.nameFromIndex(nubbins))).formatted(Formatting.GRAY));
         if (patterns != null) {
             String baseColor = DyeColor.byId(patterns.getInt("Base")).getName();
@@ -76,34 +79,26 @@ public class BannerCapeItem extends Item implements Trinket, BannerCapeable {
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         super.onCraft(stack, world, player);
-        /*
+
         if (BannerPatternMatcher.MOJANGSTA.matches(stack)) {
             BannerCapes.log(Level.DEBUG, "Matched crafted cape to MOJANGSTA");
         }
         if (BannerPatternMatcher.PILLAGER.matches(stack)) {
             BannerCapes.log(Level.DEBUG, "Matched crafted cape to PILLAGER");
         }
-        */
-    }
 
-    @Override
-    public ItemStack getStackForRender() {
-        ItemStack stack = super.getStackForRender();
-        stack.getOrCreateTag().putInt("Nubbins", 0);
-        stack.getOrCreateSubTag("BlockEntityTag").putInt("Base", 14);
-        return stack;
     }
 
     @Override
     public boolean hasBanner(ItemStack stack) {
-        return stack.getSubTag("BlockEntityTag") != null;
+        return stack.getSubNbt("BlockEntityTag") != null;
     }
 
     @Override
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
         if (this.isIn(group)) {
             ItemStack stack = new ItemStack(this);
-            stack.getOrCreateTag().putInt("Nubbins", 0);
+            stack.getOrCreateNbt().putInt("Nubbins", 0);
             stacks.add(stack);
         }
     }
@@ -121,19 +116,20 @@ public class BannerCapeItem extends Item implements Trinket, BannerCapeable {
         if (color == null) {
             return -1;
         }
-        return color.getMaterialColor().color;
+        return color.getMapColor().color;
     }
 
     public static DyeColor getDyeColorStatic(ItemStack stack) {
-        CompoundTag tag = stack.getSubTag("BlockEntityTag");
+        NbtCompound tag = stack.getOrCreateSubNbt("BlockEntityTag");
         if (tag == null) {
+            BannerCapes.log(Level.ERROR, "NoTag");
             return null;
         }
         return DyeColor.byId(tag.getInt("Base"));
     }
 
     public static int getNubbinColorStatic(ItemStack stack) {
-        CompoundTag tag = stack.getOrCreateTag();
+        NbtCompound tag = stack.getOrCreateNbt();
         if (!tag.contains("Nubbins")) {
             tag.putInt("Nubbins", 0);
         }

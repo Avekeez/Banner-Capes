@@ -1,8 +1,7 @@
-package j5im.bannercapes.recipe;
+package j5im.banner_capes.recipe;
 
-import j5im.bannercapes.BannerCapes;
-
-import j5im.bannercapes.Nubbin;
+import j5im.banner_capes.BannerCapes;
+import j5im.banner_capes.Nubbin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -10,7 +9,7 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.util.Identifier;
@@ -36,12 +35,14 @@ public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
                         return false;
                     }
                     foundBanner = true;
-                } else if (item == BannerCapes.BANNER_CAPE) {
+                }
+                else if (item == BannerCapes.BANNER_CAPE) {
                     if (foundCape) {
                         return false;
                     }
                     foundCape = true;
-                } else if (Nubbin.isNubbinable(cur)) {
+                }
+                else if (Nubbin.isNubbinable(cur)) {
                     if (foundNubbin) {
                         return false;
                     }
@@ -75,13 +76,13 @@ public class BannerCapeDecorationRecipe extends SpecialCraftingRecipe {
             return cape;
         } else {
             if (!banner.isEmpty()) {
-                CompoundTag tag = banner.getSubTag("BlockEntityTag");
-                tag = (tag == null) ? new CompoundTag() : tag.copy();
+                NbtCompound tag = banner.getSubNbt("BlockEntityTag");
+                tag = (tag == null) ? new NbtCompound() : tag.copy();
                 tag.putInt("Base", ((BannerItem)banner.getItem()).getColor().getId());
-                cape.putSubTag("BlockEntityTag", tag);
+                cape.setSubNbt("BlockEntityTag", tag);
             }
             if (!nubbin.isEmpty()) {
-                cape.getOrCreateTag().putInt("Nubbins", Nubbin.indexFromItem(nubbin));
+                cape.getOrCreateNbt().putInt("Nubbins", Nubbin.indexFromItem(nubbin));
             }
             return cape;
         }
