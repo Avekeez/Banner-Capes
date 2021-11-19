@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": {
+    "namespace": "minecraft",
+    "path": "block/polished_granite"
+  },
+  "itemIdentifier": {
+    "namespace": "minecraft",
+    "path": "polished_granite_slab"
+  },
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+  ],
+  "ignore": false
+}

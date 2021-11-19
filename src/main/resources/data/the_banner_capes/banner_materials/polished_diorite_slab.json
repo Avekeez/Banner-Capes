@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": {
+    "namespace": "minecraft",
+    "path": "block/polished_diorite"
+  },
+  "itemIdentifier": {
+    "namespace": "minecraft",
+    "path": "polished_diorite_slab"
+  },
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+  ],
+  "ignore": false
+}

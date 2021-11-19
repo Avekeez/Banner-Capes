@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": {
+    "namespace": "minecraft",
+    "path": "block/prismarine_brick"
+  },
+  "itemIdentifier": {
+    "namespace": "minecraft",
+    "path": "prismarine_brick_slab"
+  },
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+  ],
+  "ignore": false
+}

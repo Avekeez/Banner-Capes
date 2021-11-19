@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": {
+    "namespace": "minecraft",
+    "path": "block/smooth_stone"
+  },
+  "itemIdentifier": {
+    "namespace": "minecraft",
+    "path": "smooth_stone_slab"
+  },
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+  ],
+  "ignore": false
+}

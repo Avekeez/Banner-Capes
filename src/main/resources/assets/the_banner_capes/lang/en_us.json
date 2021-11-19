@@ -1,0 +1,15 @@
+{
+	"item.the_banner_capes.banner_cape": "Banner Cape",
+	"item.the_banner_capes.banner_cape.no_banner": "Banner: Bannerless",
+	"item.the_banner_capes.banner_cape.banner": "Banner: %s",
+	"item.the_banner_capes.banner_cape.collar": "Collar: %s",
+	"item.the_banner_capes.banner_cape.no_collar": "Collar: None",
+	"item.the_banner_capes.banner_cape.nubbin_left": "left Nubbin: %s",
+	"item.the_banner_capes.banner_cape.no_nubbin_left": "left Nubbin: None",
+	"item.the_banner_capes.banner_cape.nubbin_right": "right Nubbin: %s",
+	"item.the_banner_capes.banner_cape.no_nubbin_right": "right Nubbin: None",
+	"advancements.the_banner_capes.root.title": "Cape'd and Banner'd",
+	"advancements.the_banner_capes.root.description": "Have a banner cape",
+	"advancements.the_banner_capes.mojangsta.title": "Fauxjangsta",
+	"advancements.the_banner_capes.mojangsta.description": "Impersonate a developer"
+}

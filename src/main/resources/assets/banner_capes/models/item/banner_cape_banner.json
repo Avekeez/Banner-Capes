@@ -1,8 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "banner_capes:item/cape_bar_nubbinned",
-	"layer1": "banner_capes:item/nubbin",
-	"layer2": "banner_capes:item/cape"
-  }
-}
