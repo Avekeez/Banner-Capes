@@ -1,21 +1,12 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/iron_block"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "iron_ingot"
-  },
+  "textureIdentifier": "minecraft:block/iron_block",
+  "itemIdentifier": "minecraft:iron_ingot",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [
     {
       "attributeVariant": "DEFAULT",
-      "attributeName": {
-        "namespace": "minecraft",
-        "path": "generic.armor"
-      },
+      "attributeName": "minecraft:generic.armor",
       "modifierValue": 1,
       "operation": "ADDITION"
     }

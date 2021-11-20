@@ -97,7 +97,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 
     // Renders the collar, the top middle bar
     private void renderCollar(ItemStack capeStack, MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light) {
-        Identifier tex = Collar.textureFromIdentifier(capeStack.getOrCreateNbt().getString("Collar"));
+        Identifier tex = Collar.textureFromString(capeStack.getOrCreateNbt().getString("Collar"));
         if (tex == null) tex = Collar.getFirstCollarableTexture();
         tex = new Identifier(tex.getNamespace(), "textures/" + tex.getPath() + ".png");
 
@@ -108,13 +108,13 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
     // Renders the nubbins, the lil things on the ends
     private void renderNubbin(boolean leftRight, ItemStack capeStack, MatrixStack matrix, VertexConsumerProvider vertexConsumerProvider, int light) {
         if (leftRight) {
-            Identifier texLeft = Nubbin.textureFromIdentifier(capeStack.getOrCreateNbt().getString("NubbinLeft"));
+            Identifier texLeft = Nubbin.textureFromString(capeStack.getOrCreateNbt().getString("NubbinLeft"));
             if (texLeft == null) texLeft = Nubbin.getFirstNubbinableTexture();
             texLeft = new Identifier(texLeft.getNamespace(), "textures/" + texLeft.getPath() + ".png");
             VertexConsumer nubLeft_vc = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(texLeft));
             capeModel.getNubbinLeft().render(matrix, nubLeft_vc, light, OverlayTexture.DEFAULT_UV);
         } else {
-            Identifier texRight = Nubbin.textureFromIdentifier(capeStack.getOrCreateNbt().getString("NubbinRight"));
+            Identifier texRight = Nubbin.textureFromString(capeStack.getOrCreateNbt().getString("NubbinRight"));
             if (texRight == null) texRight = Nubbin.getFirstNubbinableTexture();
             texRight = new Identifier(texRight.getNamespace(), "textures/" + texRight.getPath() + ".png");
             VertexConsumer nubRight_vc = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(texRight));

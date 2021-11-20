@@ -10,15 +10,16 @@ public class AttributeModifierDataItem implements Cloneable {
     public enum AttributeVariant {_IGNORE, IGNORE, DEFAULT}
 
     public AttributeVariant attributeVariant;
-   public final Identifier attributeName;
-   public final int modifierValue;
-   public final EntityAttributeModifier.Operation operation;
+   public String attributeName;
+   public int modifierValue;
+   public String operation;
 
-    public AttributeModifierDataItem(AttributeVariant attributeVariant, Identifier attributeName, int modifierValue, EntityAttributeModifier.Operation operation) {
+    public AttributeModifierDataItem(AttributeVariant attributeVariant, String attributeName, int modifierValue, String operation) {
         this.attributeVariant = attributeVariant;
         this.attributeName = attributeName;
         this.modifierValue = modifierValue;
         this.operation = operation;
+
     }
 
     public boolean equalAttributeName(AttributeModifierDataItem item) {

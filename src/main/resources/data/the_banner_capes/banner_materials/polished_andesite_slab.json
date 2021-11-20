@@ -1,12 +1,6 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/polished_andesite"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "polished_andesite_slab"
-  },
+  "textureIdentifier": "minecraft:block/polished_andesite",
+  "itemIdentifier": "minecraft:polished_andesite_slab",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [

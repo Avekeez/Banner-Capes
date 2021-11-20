@@ -62,7 +62,7 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
 
         if(BannerCapeable.hasLeftNubbin(stack)) {
             String nubbinLeft = stack.getOrCreateNbt().getString("NubbinLeft");
-            tooltip.add(new TranslatableText("item.the_banner_capes.banner_cape.nubbin_left", new TranslatableText(Nubbin.nameFromIdentifier(nubbinLeft))).formatted(Formatting.GRAY));
+            tooltip.add(new TranslatableText("item.the_banner_capes.banner_cape.nubbin_left", new TranslatableText(Nubbin.nameFromString(nubbinLeft))).formatted(Formatting.GRAY));
         }
         else
         {
@@ -71,7 +71,7 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
 
         if(BannerCapeable.hasRightNubbin(stack)) {
             String nubbinRight = stack.getOrCreateNbt().getString("NubbinRight");
-            tooltip.add(new TranslatableText("item.the_banner_capes.banner_cape.nubbin_right", new TranslatableText(Nubbin.nameFromIdentifier(nubbinRight))).formatted(Formatting.GRAY));
+            tooltip.add(new TranslatableText("item.the_banner_capes.banner_cape.nubbin_right", new TranslatableText(Nubbin.nameFromString(nubbinRight))).formatted(Formatting.GRAY));
         }
         else
         {
@@ -80,7 +80,7 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
 
         if(BannerCapeable.hasCollar(stack)) {
             String collar = stack.getOrCreateNbt().getString("Collar");
-            tooltip.add(new TranslatableText("item.the_banner_capes.banner_cape.collar", new TranslatableText(Collar.nameFromIdentifier(collar))).formatted(Formatting.GRAY));
+            tooltip.add(new TranslatableText("item.the_banner_capes.banner_cape.collar", new TranslatableText(Collar.nameFromString(collar))).formatted(Formatting.GRAY));
         }
         else
         {
@@ -115,9 +115,9 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
         if (this.isIn(group)) {
             ItemStack stack = new ItemStack(this);
-            stack.getOrCreateNbt().putString("NubbinLeft", BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].itemIdentifier.toString());
-            stack.getOrCreateNbt().putString("NubbinRight", BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].itemIdentifier.toString());
-            stack.getOrCreateNbt().putString("Collar", BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].itemIdentifier.toString());
+            stack.getOrCreateNbt().putString("NubbinLeft", BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].itemIdentifier);
+            stack.getOrCreateNbt().putString("NubbinRight", BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].itemIdentifier);
+            stack.getOrCreateNbt().putString("Collar", BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].itemIdentifier);
             stacks.add(stack);
         }
     }
@@ -156,9 +156,14 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
             }
 
             if(tag.getType("NubbinLeft") == NbtElement.INT_TYPE) {
-                String name = BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[tag.getInt("NubbinLeft")].itemIdentifier.toString();
+                String name = BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[tag.getInt("NubbinLeft")].itemIdentifier;
                 tag.remove("NubbinLeft");
                 tag.putString("NubbinLeft", name);
+            }
+
+            if(!Nubbin.isStringNubbinable(tag.getString("NubbinLeft")))
+            {
+                tag.putString("NubbinLeft", BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].itemIdentifier);
             }
 
             nubbinIdentifier = tag.getString("NubbinLeft");
@@ -170,15 +175,20 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
             }
 
             if(tag.getType("NubbinRight") == NbtElement.INT_TYPE) {
-                String name = BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[tag.getInt("NubbinRight")].itemIdentifier.toString();
+                String name = BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[tag.getInt("NubbinRight")].itemIdentifier;
                 tag.remove("NubbinRight");
                 tag.putString("NubbinRight", name);
+            }
+
+            if(!Nubbin.isStringNubbinable(tag.getString("NubbinRight")))
+            {
+                tag.putString("NubbinRight", BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].itemIdentifier);
             }
 
             nubbinIdentifier = tag.getString("NubbinRight");
         }
 
-        return Nubbin.textureFromIdentifier(nubbinIdentifier);
+        return Nubbin.textureFromString(nubbinIdentifier);
     }
 
     public static Identifier getCollarTextureStatic(ItemStack stack) {
@@ -194,8 +204,14 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
             tag.putString("Collar", name);
         }
 
+        if(!Collar.isStringCollarable(tag.getString("Collar")))
+        {
+            tag.putString("Collar", BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].itemIdentifier);
+        }
+
         String collarIdentifier = tag.getString("Collar");
-        return Collar.textureFromIdentifier(collarIdentifier);
+
+        return Collar.textureFromString(collarIdentifier);
     }
 
     public Multimap<EntityAttribute, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, UUID uuid) {
@@ -205,7 +221,7 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
             AttributeModifierDataItem[] attributeModifierDataItems = getAttributeModifiersFromConfig(stack);
 
             for (AttributeModifierDataItem item : attributeModifierDataItems) {
-                modifiers.put(API.getAttribute(item.attributeName).get(), new EntityAttributeModifier(uuid, "the_banner_capes:" + item.attributeName.getPath(), item.modifierValue, item.operation));
+                modifiers.put(API.getAttribute(new Identifier(item.attributeName)).get(), new EntityAttributeModifier(uuid, "the_banner_capes:" + new Identifier(item.attributeName).getPath(), item.modifierValue, EntityAttributeModifier.Operation.valueOf(item.operation)));
             }
         }
         return modifiers;

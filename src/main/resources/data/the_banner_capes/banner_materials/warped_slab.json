@@ -1,21 +1,12 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/warped_planks"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "warped_slab"
-  },
+  "textureIdentifier": "minecraft:block/warped_planks",
+  "itemIdentifier": "minecraft:warped_slab",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [
     {
       "attributeVariant": "DEFAULT",
-      "attributeName": {
-        "namespace": "minecraft",
-        "path": "generic.armor"
-      },
+      "attributeName": "minecraft:generic.armor",
       "modifierValue": 1,
       "operation": "ADDITION"
     }

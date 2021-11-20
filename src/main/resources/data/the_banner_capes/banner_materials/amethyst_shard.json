@@ -1,21 +1,12 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/amethyst_block"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "amethyst_shard"
-  },
+  "textureIdentifier": "minecraft:block/amethyst_block",
+  "itemIdentifier": "minecraft:amethyst_shard",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [
     {
       "attributeVariant": "DEFAULT",
-      "attributeName": {
-        "namespace": "minecraft",
-        "path": "generic.armor"
-      },
+      "attributeName": "minecraft:generic.armor",
       "modifierValue": 1,
       "operation": "ADDITION"
     }

@@ -1,12 +1,6 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/dark_prismarine"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "dark_prismarine_slab"
-  },
+  "textureIdentifier": "minecraft:block/dark_prismarine",
+  "itemIdentifier": "minecraft:dark_prismarine_slab",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [

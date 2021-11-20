@@ -1,12 +1,6 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/cobblestone"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "cobblestone"
-  },
+  "textureIdentifier": "minecraft:block/cobblestone",
+  "itemIdentifier": "minecraft:cobblestone",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [

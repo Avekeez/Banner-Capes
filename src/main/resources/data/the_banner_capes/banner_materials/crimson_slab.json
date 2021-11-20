@@ -1,21 +1,12 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/crimson_planks"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "crimson_slab"
-  },
+  "textureIdentifier": "minecraft:block/crimson_planks",
+  "itemIdentifier": "minecraft:crimson_slab",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [
     {
       "attributeVariant": "DEFAULT",
-      "attributeName": {
-        "namespace": "minecraft",
-        "path": "generic.armor"
-      },
+      "attributeName": "minecraft:generic.armor",
       "modifierValue": 1,
       "operation": "ADDITION"
     }

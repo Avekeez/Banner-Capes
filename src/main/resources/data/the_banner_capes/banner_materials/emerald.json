@@ -1,21 +1,12 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/emerald_block"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "emerald"
-  },
+  "textureIdentifier": "minecraft:block/emerald_block",
+  "itemIdentifier": "minecraft:emerald",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [
     {
       "attributeVariant": "DEFAULT",
-      "attributeName": {
-        "namespace": "minecraft",
-        "path": "generic.armor"
-      },
+      "attributeName": "minecraft:generic.armor",
       "modifierValue": 1,
       "operation": "ADDITION"
     }

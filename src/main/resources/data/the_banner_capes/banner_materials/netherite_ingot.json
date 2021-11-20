@@ -1,21 +1,12 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/netherite_block"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "netherite_ingot"
-  },
+  "textureIdentifier": "minecraft:block/netherite_block",
+  "itemIdentifier": "minecraft:netherite_ingot",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [
     {
       "attributeVariant": "DEFAULT",
-      "attributeName": {
-        "namespace": "minecraft",
-        "path": "generic.armor"
-      },
+      "attributeName": "minecraft:generic.armor",
       "modifierValue": 1,
       "operation": "ADDITION"
     }

@@ -1,11 +1,11 @@
 package com.github.Gorden121.the_banner_capes;
 
-import dev.emi.trinkets.api.TrinketItem;
 import com.github.Gorden121.the_banner_capes.config.BannerCapesConfig;
 import com.github.Gorden121.the_banner_capes.data.BannerCapeMaterialsData;
 import com.github.Gorden121.the_banner_capes.data.BannerCapeSimpleSynchronousResourceReloadListener;
 import com.github.Gorden121.the_banner_capes.item.BannerCapeItem;
 import com.github.Gorden121.the_banner_capes.recipe.BannerCapeRecipe;
+import dev.emi.trinkets.api.TrinketItem;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -63,8 +63,9 @@ public class BannerCapes implements ModInitializer {
     public static final Item BANNER_CAPE = new BannerCapeItem();
     public static final SpecialRecipeSerializer<BannerCapeRecipe> BANNER_CAPE_SERIALIZER = Registry.register(
             Registry.RECIPE_SERIALIZER,
-            "crafting_special_bannercape",
-            new SpecialRecipeSerializer<>(BannerCapeRecipe::new));
+            "banner_capes:crafting_special_bannercape",
+            new SpecialRecipeSerializer<>(BannerCapeRecipe::new)
+    );
 
     public static BannerCapesConfig config() {
         return AutoConfig.getConfigHolder(BannerCapesConfig.class).get();
@@ -82,10 +83,20 @@ public class BannerCapes implements ModInitializer {
         log(Level.INFO, "Initializing " + MOD_NAME + " (" + MOD_ID + ") " + MOD_VERSION);
 
         AutoConfig.register(BannerCapesConfig.class, GsonConfigSerializer::new);
-
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new BannerCapeSimpleSynchronousResourceReloadListener());
 
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "banner_cape"), BANNER_CAPE);
+
+
+        /*try {
+            Gson gson = new Gson();
+            FileWriter writer = new FileWriter("output.json");
+            writer.write(gson.toJson(bannerCapeMaterialsData.getMinimumDecorationMaterials()));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
     }
 
 

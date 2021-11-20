@@ -1,21 +1,12 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/diamond_block"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "diamond"
-  },
+  "textureIdentifier": "minecraft:block/diamond_block",
+  "itemIdentifier": "minecraft:diamond",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [
     {
       "attributeVariant": "DEFAULT",
-      "attributeName": {
-        "namespace": "minecraft",
-        "path": "generic.armor"
-      },
+      "attributeName": "minecraft:generic.armor",
       "modifierValue": 1,
       "operation": "ADDITION"
     }

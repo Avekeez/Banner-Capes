@@ -38,7 +38,7 @@ public class BannerCapeMaterialsData {
     public void CheckIfModExists() {
 
         for (DecorationMaterialDataItem decorationMaterial : decorationMaterialsArray) {
-            Identifier identifier = decorationMaterial.textureIdentifier;
+            Identifier identifier = new Identifier(decorationMaterial.textureIdentifier);
 
             if (identifier.getNamespace() != null) {
                 if (!BannerCapes.config().knownMods.contains(identifier.getNamespace()) && !identifier.getNamespace().equals("minecraft")) {
@@ -49,7 +49,7 @@ public class BannerCapeMaterialsData {
             }
 
             for (AttributeModifierDataItem attributeModifier : decorationMaterial.attributeModifiers) {
-                identifier = attributeModifier.attributeName;
+                identifier = new Identifier(attributeModifier.attributeName);
                 if (identifier.getNamespace() != null) {
                     if (attributeModifier.attributeVariant != AttributeModifierDataItem.AttributeVariant._IGNORE) {
                         if (!BannerCapes.config().knownMods.contains(identifier.getNamespace()) && !identifier.getNamespace().equals("minecraft")) {
@@ -66,7 +66,7 @@ public class BannerCapeMaterialsData {
     public DecorationMaterialDataItem[] getMinimumDecorationMaterials() {
         DecorationMaterialDataItem[] newMaterialArray = new DecorationMaterialDataItem[]{
                 //Wood
-                new DecorationMaterialDataItem(new Identifier("minecraft:textures/block/oak_planks.png"), new Identifier("minecraft:oak_planks"), true, true, generateAttributeModifierConfigItem(), false)
+                new DecorationMaterialDataItem("minecraft:block/oak_planks", "minecraft:oak_planks", true, true, generateAttributeModifierConfigItem(), false)
         };
 
         materialMapping = new HashMap<>();
@@ -80,7 +80,7 @@ public class BannerCapeMaterialsData {
     private AttributeModifierDataItem[] generateAttributeModifierConfigItem() {
 
         List<AttributeModifierDataItem> attributeModifierDataItemList = new ArrayList<>();
-        attributeModifierDataItemList.add(new AttributeModifierDataItem(AttributeModifierDataItem.AttributeVariant.DEFAULT, new Identifier("minecraft:generic.armor"), 1, EntityAttributeModifier.Operation.ADDITION));
+        attributeModifierDataItemList.add(new AttributeModifierDataItem(AttributeModifierDataItem.AttributeVariant.DEFAULT, "minecraft:generic.armor", 1, EntityAttributeModifier.Operation.ADDITION.toString()));
         //attributeModifierDataItemList.add(new AttributeModifierDataItem(AttributeModifierDataItem.AttributeVariant.DEFAULT, new Identifier("minecraft:generic.armor_toughness"), 1, EntityAttributeModifier.Operation.ADDITION));
 
         return attributeModifierDataItemList.toArray(new AttributeModifierDataItem[0]);

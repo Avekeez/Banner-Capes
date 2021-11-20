@@ -14,6 +14,8 @@ import java.util.List;
 
 public class BannerCapeSimpleSynchronousResourceReloadListener implements SimpleSynchronousResourceReloadListener {
 
+    Gson gson = new Gson();
+
     @Override
     public Identifier getFabricId() {
         return new Identifier(BannerCapes.MOD_ID, "banner_cape_materials");
@@ -33,7 +35,6 @@ public class BannerCapeSimpleSynchronousResourceReloadListener implements Simple
                 for (int length; (length = stream.read(buffer)) != -1; ) {
                     result.write(buffer, 0, length);
                 }
-                Gson gson = new Gson();
                 decorationMaterialDataItemList.add(gson.fromJson(result.toString(), DecorationMaterialDataItem.class));
 
             } catch(Exception e) {

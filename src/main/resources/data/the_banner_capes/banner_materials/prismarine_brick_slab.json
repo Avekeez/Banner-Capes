@@ -1,12 +1,6 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/prismarine_brick"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "prismarine_brick_slab"
-  },
+  "textureIdentifier": "minecraft:block/prismarine_brick",
+  "itemIdentifier": "minecraft:prismarine_brick_slab",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [

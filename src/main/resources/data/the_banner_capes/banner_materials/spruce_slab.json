@@ -1,21 +1,12 @@
 {
-  "textureIdentifier": {
-    "namespace": "minecraft",
-    "path": "block/spruce_planks"
-  },
-  "itemIdentifier": {
-    "namespace": "minecraft",
-    "path": "spruce_slab"
-  },
+  "textureIdentifier": "minecraft:block/spruce_planks",
+  "itemIdentifier": "minecraft:spruce_slab",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [
     {
       "attributeVariant": "DEFAULT",
-      "attributeName": {
-        "namespace": "minecraft",
-        "path": "generic.armor"
-      },
+      "attributeName": "minecraft:generic.armor",
       "modifierValue": 1,
       "operation": "ADDITION"
     }

@@ -8,10 +8,10 @@ import net.minecraft.util.registry.Registry;
 public class Collar {
 
     // returns null if the index is invalid
-    public static Identifier textureFromIdentifier(String identifier) {
+    public static Identifier textureFromString(String identifier) {
 
         if(BannerCapes.bannerCapeMaterialsData.materialMapping.containsKey(identifier)) {
-            return BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[BannerCapes.bannerCapeMaterialsData.materialMapping.get(identifier)].textureIdentifier;
+            return new Identifier(BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[BannerCapes.bannerCapeMaterialsData.materialMapping.get(identifier)].textureIdentifier);
         }
         return null;
     }
@@ -19,18 +19,25 @@ public class Collar {
     public static Identifier getFirstCollarableTexture() {
         for (DecorationMaterialDataItem item: BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray) {
             if(item.isCollar)
-                return item.textureIdentifier;
+                return new Identifier(item.textureIdentifier);
         }
 
-        return BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].textureIdentifier;
+        return new Identifier(BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[0].textureIdentifier);
     }
 
-    public static String nameFromIdentifier(String identifier) {
+    public static String nameFromString(String identifier) {
 
         if(BannerCapes.bannerCapeMaterialsData.materialMapping.containsKey(identifier)) {
-            return Registry.ITEM.get(BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[BannerCapes.bannerCapeMaterialsData.materialMapping.get(identifier)].itemIdentifier).getTranslationKey();
+            return Registry.ITEM.get(new Identifier(BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[BannerCapes.bannerCapeMaterialsData.materialMapping.get(identifier)].itemIdentifier)).getTranslationKey();
         }
         return null;
+    }
+
+    public static boolean isStringCollarable(String id) {
+        if(BannerCapes.bannerCapeMaterialsData.materialMapping.containsKey(id))
+            return BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray[BannerCapes.bannerCapeMaterialsData.materialMapping.get(id)].isCollar;
+
+        return false;
     }
 
     public static boolean isCollarable(ItemStack stack) {
