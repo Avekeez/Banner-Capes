@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.9-SNAPSHOT'
+    id 'fabric-loom' version '0.10-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -54,7 +54,7 @@ dependencies {
     implementation 'net.objecthunter:exp4j:0.4.8'
     modImplementation "eu.pb4:placeholder-api:${project.placeholder_api}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"
-    modRuntime "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"
 
     //ModMenu
     modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
