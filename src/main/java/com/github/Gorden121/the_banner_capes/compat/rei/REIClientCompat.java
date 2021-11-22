@@ -20,20 +20,16 @@ public class REIClientCompat implements REIClientPlugin, BannerCapePlugin {
 
     @Override
     public void registerCategories(CategoryRegistry registry) {
-        registry.add(
-                new BannerCapeCraftingCategory()
-        );
+        registry.add(new BannerCapeCraftingCategory());
         registry.addWorkstations(BANNER_CAPE_CRAFTING, EntryStacks.of(Items.CRAFTING_TABLE));
-
     }
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        // .getRecipeTypes("techreborn").forEach(rebornRecipeType -> registerMachineRecipe(registry, rebornRecipeType));
 
         //registry.registerFiller(BannerCapeShapedRecipe.class, RecipeType.CRAFTING, BannerCapeShapedRecip);
-        //registry.registerRecipeFiller(BannerCapeShapedRecipe.class, RecipeType.CRAFTING, BannerCapeShapedDisplay::new);
+        registry.registerRecipeFiller(BannerCapeShapedRecipe.class, RecipeType.CRAFTING, BannerCapeShapedDisplay::new);
 
-        registry.registerFiller(BannerCapeShapedRecipe.class, recipe -> recipe.getType() == RecipeType.CRAFTING, BannerCapeShapedDisplay::new);
+        //registry.registerFiller(BannerCapeShapedRecipe.class, recipe -> recipe.getType() == RecipeType.CRAFTING, BannerCapeShapedDisplay::new);
     }
 }

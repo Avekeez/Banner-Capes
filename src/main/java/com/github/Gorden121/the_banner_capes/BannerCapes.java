@@ -57,17 +57,17 @@ public class BannerCapes implements ModInitializer {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static String MOD_ID;
-    public static String MOD_NAME;
-    public static String MOD_VERSION;
+    public static final String MOD_ID = "the_banner_capes";
+    public static final String MOD_NAME = "The Banner Capes";
+    public static final String MOD_VERSION = "2.0.0-1.17.1";
     public static final String ConfigVersionInternal = "V2";
 
     public static final Item BANNER_CAPE = new BannerCapeItem();
 
 
-    public static final RecipeSerializer<BannerCapeShapedRecipe> BANNER_CAPE_SHAPED_SERIALIZER = Registry.register(
+    public static RecipeSerializer<BannerCapeShapedRecipe> BANNER_CAPE_SHAPED_SERIALIZER = Registry.register(
             Registry.RECIPE_SERIALIZER,
-            "crafting_bannercape_shaped",
+            MOD_ID + ":crafting_bannercape_shaped",
             new BannerCapeShapedRecipe.Serializer()
     );
 
@@ -78,14 +78,6 @@ public class BannerCapes implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Optional<ModContainer> optionalModContainer = FabricLoader.getInstance().getModContainer("the_banner_capes");
-        if(optionalModContainer.isPresent()) {
-            ModContainer container = optionalModContainer.get();
-            ModMetadata metadata = container.getMetadata();
-            MOD_ID = metadata.getId();
-            MOD_NAME = metadata.getName();
-            MOD_VERSION = metadata.getVersion().getFriendlyString();
-        }
 
         log(Level.INFO, "Initializing " + MOD_NAME + " (" + MOD_ID + ") " + MOD_VERSION);
 

@@ -5,5 +5,5 @@ import com.github.Gorden121.the_banner_capes.compat.rei.common.display.BannerCap
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 
 public interface BannerCapePlugin {
-    CategoryIdentifier<BannerCapeCraftingDisplay<?>> BANNER_CAPE_CRAFTING = CategoryIdentifier.of(BannerCapes.MOD_ID, "crafting_bannercape_shaped");
+    CategoryIdentifier<BannerCapeCraftingDisplay<?>> BANNER_CAPE_CRAFTING = CategoryIdentifier.of(BannerCapes.MOD_ID, "plugins/crafting_bannercape_shaped");
 }

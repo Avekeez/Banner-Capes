@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_bannercape_shaped",
+  "type": "the_banner_capes:crafting_bannercape_shaped",
   "pattern": [
     "(#)",
     " B "
