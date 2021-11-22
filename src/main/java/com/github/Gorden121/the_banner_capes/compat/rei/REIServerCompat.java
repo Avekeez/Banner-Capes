@@ -14,4 +14,13 @@ public class REIServerCompat implements REIServerPlugin, BannerCapePlugin {
     public void registerDisplaySerializer(DisplaySerializerRegistry registry) {
         registry.register(BANNER_CAPE_CRAFTING, BannerCapeCraftingDisplay.serializer());
     }
+
+    public void registerMenuInfo(MenuInfoRegistry registry) {
+        registry.register(BANNER_CAPE_CRAFTING, CraftingScreenHandler.class, new RecipeBookGridMenuInfo());
+        registry.register(BANNER_CAPE_CRAFTING, PlayerScreenHandler.class, new RecipeBookGridMenuInfo());
+    }
+
+    public double getPriority() {
+        return 100.0D;
+    }
 }
