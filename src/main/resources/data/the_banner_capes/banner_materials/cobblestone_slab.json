@@ -1,6 +1,6 @@
 {
   "textureIdentifier": "minecraft:block/cobblestone",
-  "itemIdentifier": "minecraft:cobblestone",
+  "itemIdentifier": "minecraft:cobblestone_slab",
   "isNubbin": true,
   "isCollar": true,
   "attributeModifiers": [

@@ -4,13 +4,14 @@ import com.github.Gorden121.the_banner_capes.config.BannerCapesConfig;
 import com.github.Gorden121.the_banner_capes.data.BannerCapeMaterialsData;
 import com.github.Gorden121.the_banner_capes.data.BannerCapeSimpleSynchronousResourceReloadListener;
 import com.github.Gorden121.the_banner_capes.item.BannerCapeItem;
-import com.github.Gorden121.the_banner_capes.recipe.BannerCapeRecipe;
+import com.github.Gorden121.the_banner_capes.recipe.BannerCapeShapedRecipe;
 import dev.emi.trinkets.api.TrinketItem;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.DispenserBehavior;
@@ -20,7 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.recipe.SpecialRecipeSerializer;
+import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPointer;
@@ -32,6 +33,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BannerCapes implements ModInitializer {
     // nasty, dirty, filthy fix to have trinkets not get eaten
@@ -61,10 +63,12 @@ public class BannerCapes implements ModInitializer {
     public static final String ConfigVersionInternal = "V2";
 
     public static final Item BANNER_CAPE = new BannerCapeItem();
-    public static final SpecialRecipeSerializer<BannerCapeRecipe> BANNER_CAPE_SERIALIZER = Registry.register(
+
+
+    public static final RecipeSerializer<BannerCapeShapedRecipe> BANNER_CAPE_SHAPED_SERIALIZER = Registry.register(
             Registry.RECIPE_SERIALIZER,
-            "banner_capes:crafting_special_bannercape",
-            new SpecialRecipeSerializer<>(BannerCapeRecipe::new)
+            "crafting_bannercape_shaped",
+            new BannerCapeShapedRecipe.Serializer()
     );
 
     public static BannerCapesConfig config() {
@@ -74,11 +78,14 @@ public class BannerCapes implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModMetadata metadata = FabricLoader.getInstance().getModContainer("the_banner_capes").get().getMetadata();
-        MOD_ID = metadata.getId().toString();
-        MOD_NAME = metadata.getName().toString();
-        MOD_VERSION = metadata.getVersion().getFriendlyString();
-
+        Optional<ModContainer> optionalModContainer = FabricLoader.getInstance().getModContainer("the_banner_capes");
+        if(optionalModContainer.isPresent()) {
+            ModContainer container = optionalModContainer.get();
+            ModMetadata metadata = container.getMetadata();
+            MOD_ID = metadata.getId();
+            MOD_NAME = metadata.getName();
+            MOD_VERSION = metadata.getVersion().getFriendlyString();
+        }
 
         log(Level.INFO, "Initializing " + MOD_NAME + " (" + MOD_ID + ") " + MOD_VERSION);
 

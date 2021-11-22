@@ -21,6 +21,10 @@
     ],
     "modmenu": [
       "com.github.Gorden121.the_banner_capes.compat.ModMenuCompat"
+    ],
+    "rei": [
+      "com.github.Gorden121.the_banner_capes.compat.rei.REIServerCompat",
+      "com.github.Gorden121.the_banner_capes.compat.rei.REIClientCompat"
     ]
   },
   "mixins": [

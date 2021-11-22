@@ -53,6 +53,8 @@ dependencies {
     modImplementation "curse.maven:playerex-409221:3499244"
     implementation 'net.objecthunter:exp4j:0.4.8'
     modImplementation "eu.pb4:placeholder-api:${project.placeholder_api}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"
+    modRuntime "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"
 
     //ModMenu
     modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"

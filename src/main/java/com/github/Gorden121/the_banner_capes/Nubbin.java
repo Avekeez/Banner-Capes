@@ -52,6 +52,27 @@ public class Nubbin {
         return false;
     }
 
+    public static int getNextNubbinable(int index) {
+        DecorationMaterialDataItem[] materialArray = BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray;
+        for (int i = index+1; i < materialArray.length; i++) {
+            if(materialArray[i].isNubbin) {
+                return i;
+            }
+        }
+        return getFirstNubbinable();
+    }
+
+    public static int getFirstNubbinable() {
+        DecorationMaterialDataItem[] materialArray = BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray;
+
+        for (int i = 0; i < materialArray.length; i++) {
+            if(materialArray[i].isNubbin) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
     // returns the index or -1 if not found
     public static String identifierFromItem(ItemStack stack) {
         if (stack.isEmpty()) return null;

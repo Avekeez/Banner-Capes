@@ -50,6 +50,31 @@ public class Collar {
         return false;
     }
 
+    public static int getNextCollarable(int index) {
+        DecorationMaterialDataItem[] materialArray = BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray;
+        for (int i = index+1; i < materialArray.length; i++) {
+            if(materialArray[i].isCollar) {
+                return i;
+            }
+        }
+        for (int i = 0; i < materialArray.length; i++) {
+            if(materialArray[i].isCollar) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public static int getFirstCollarable() {
+        DecorationMaterialDataItem[] materialArray = BannerCapes.bannerCapeMaterialsData.decorationMaterialsArray;
+
+        for (int i = 0; i < materialArray.length; i++) {
+            if(materialArray[i].isCollar) {
+                return i;
+            }
+        }
+        return 0;
+    }
     // returns the index or -1 if not found
     public static String identifierFromItem(ItemStack stack) {
         if (stack.isEmpty()) return null;

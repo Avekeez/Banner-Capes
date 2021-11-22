@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_bannercape_shaped",
+  "pattern": [
+    "(#)",
+    " B "
+  ],
+  "key": {
+    "(": {
+      "tag": "the_banner_capes:nubbins"
+    },
+    "#": {
+      "tag": "the_banner_capes:collars"
+    },
+    ")": {
+      "tag": "the_banner_capes:nubbins"
+    },
+    "B": {
+      "tag": "minecraft:banners"
+    }
+  },
+  "result": {
+    "item": "the_banner_capes:banner_cape"
+  }
+}
