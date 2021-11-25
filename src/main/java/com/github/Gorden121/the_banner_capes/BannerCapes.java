@@ -1,5 +1,6 @@
 package com.github.Gorden121.the_banner_capes;
 
+import com.github.Gorden121.the_banner_capes.compat.GeneralModCompat;
 import com.github.Gorden121.the_banner_capes.config.BannerCapesConfig;
 import com.github.Gorden121.the_banner_capes.data.BannerCapeMaterialsData;
 import com.github.Gorden121.the_banner_capes.data.BannerCapeSimpleSynchronousResourceReloadListener;
@@ -35,7 +36,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
-public class BannerCapes implements ModInitializer {
+public class BannerCapes implements ModInitializer, GeneralModCompat {
     // nasty, dirty, filthy fix to have trinkets not get eaten
     // up all at once or on failure
     public static final DispenserBehavior STACKABLE_TRINKET_DISPENSER_BEHAVIOR = new ItemDispenserBehavior() {
@@ -85,7 +86,6 @@ public class BannerCapes implements ModInitializer {
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new BannerCapeSimpleSynchronousResourceReloadListener());
 
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "banner_cape"), BANNER_CAPE);
-
 
         /*try {
             Gson gson = new Gson();

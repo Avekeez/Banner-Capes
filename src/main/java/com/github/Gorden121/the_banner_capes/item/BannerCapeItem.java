@@ -217,7 +217,7 @@ public class BannerCapeItem extends TrinketItem implements BannerCapeable {
     public Multimap<EntityAttribute, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, UUID uuid) {
         var modifiers = super.getModifiers(stack, slot, entity, uuid);
 
-        if(BannerCapes.config().enableAttributeModifiers) {
+        if(BannerCapes.config().enableAttributeModifiers && BannerCapes.isDataAttributesPresent) {
             AttributeModifierDataItem[] attributeModifierDataItems = getAttributeModifiersFromConfig(stack);
 
             for (AttributeModifierDataItem item : attributeModifierDataItems) {
