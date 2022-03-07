@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": "minecraft:block/polished_andesite",
+  "itemIdentifier": "minecraft:polished_andesite_slab",
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+    {
+      "attributeVariant": "DEFAULT",
+      "attributeName": "minecraft:generic.armor",
+      "modifierValue": 1,
+      "operation": "ADDITION"
+    }
+  ],
+  "ignore": false
+}

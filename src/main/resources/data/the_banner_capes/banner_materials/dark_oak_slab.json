@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": "minecraft:block/dark_oak_planks",
+  "itemIdentifier": "minecraft:dark_oak_slab",
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+    {
+      "attributeVariant": "DEFAULT",
+      "attributeName": "minecraft:generic.armor",
+      "modifierValue": 1,
+      "operation": "ADDITION"
+    }
+  ],
+  "ignore": false
+}

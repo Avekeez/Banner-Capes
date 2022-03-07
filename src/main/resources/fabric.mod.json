@@ -1,31 +1,40 @@
 {
   "schemaVersion": 1,
-  "id": "banner_capes",
+  "id": "the_banner_capes",
   "version": "${version}",
-  "name": "Banner Capes",
+  "name": "The Banner Capes",
   "description": "A mod that lets you wear a banner as a cape.",
   "authors": [
-    "J5imothy"
+    "J5imothy",
+	"Gorden121"
   ],
-  "contributors": [],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/banner_capes/icon.png",
+  "icon": "assets/the_banner_capes/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "j5im.bannercapes.BannerCapes"
-    ],
     "client": [
-	  "j5im.bannercapes.BannerCapesClient"
-	]
+      "com.github.Gorden121.the_banner_capes.client.BannerCapesClient"
+    ],
+    "main": [
+      "com.github.Gorden121.the_banner_capes.BannerCapes"
+    ],
+    "modmenu": [
+      "com.github.Gorden121.the_banner_capes.compat.ModMenuCompat"
+    ]
   },
   "mixins": [
-    "banner_capes.mixins.json"
+    "the_banner_capes.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.4.0",
+    "fabricloader": ">=0.12.5",
     "fabric": "*",
-    "trinkets": ">=2.6.2"
+    "minecraft": ">=1.17.1",
+    "trinkets": ">=3.0.4",
+    "cloth-config2": ">=5.1.40"
+  },
+  "recommends": {
+    "roughlyenoughitems": ">=6.2.335",
+    "modmenu" : "2.0.4"
   }
 }

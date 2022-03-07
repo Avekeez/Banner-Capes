@@ -1,0 +1,28 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:acacia_slab",
+    "minecraft:amethyst_shard",
+    "minecraft:birch_slab",
+    "minecraft:cobblestone_slab",
+    "minecraft:copper_ingot",
+    "minecraft:crimson_slab",
+    "minecraft:dark_oak_slab",
+    "minecraft:dark_prismarine_slab",
+    "minecraft:diamond",
+    "minecraft:emerald",
+    "minecraft:gold_ingot",
+    "minecraft:iron_ingot",
+    "minecraft:jungle_slab",
+    "minecraft:netherite_ingot",
+    "minecraft:oak_slab",
+    "minecraft:polished_andesite_slab",
+    "minecraft:polished_diorite_slab",
+    "minecraft:polished_granite_slab",
+    "minecraft:prismarine_brick_slab",
+    "minecraft:smooth_stone_slab",
+    "minecraft:spruce_slab",
+    "minecraft:stone_slab",
+    "minecraft:warped_slab"
+  ]
+}

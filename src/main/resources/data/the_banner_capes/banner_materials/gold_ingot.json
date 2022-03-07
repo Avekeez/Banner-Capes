@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": "minecraft:block/gold_block",
+  "itemIdentifier": "minecraft:gold_ingot",
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+    {
+      "attributeVariant": "DEFAULT",
+      "attributeName": "minecraft:generic.armor",
+      "modifierValue": 1,
+      "operation": "ADDITION"
+    }
+  ],
+  "ignore": false
+}

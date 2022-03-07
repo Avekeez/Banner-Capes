@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": "minecraft:block/polished_granite",
+  "itemIdentifier": "minecraft:polished_granite_slab",
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+    {
+      "attributeVariant": "DEFAULT",
+      "attributeName": "minecraft:generic.armor",
+      "modifierValue": 1,
+      "operation": "ADDITION"
+    }
+  ],
+  "ignore": false
+}

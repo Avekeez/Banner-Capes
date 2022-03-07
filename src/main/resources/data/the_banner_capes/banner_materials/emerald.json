@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": "minecraft:block/emerald_block",
+  "itemIdentifier": "minecraft:emerald",
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+    {
+      "attributeVariant": "DEFAULT",
+      "attributeName": "minecraft:generic.armor",
+      "modifierValue": 1,
+      "operation": "ADDITION"
+    }
+  ],
+  "ignore": false
+}

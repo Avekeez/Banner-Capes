@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": "minecraft:block/netherite_block",
+  "itemIdentifier": "minecraft:netherite_ingot",
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+    {
+      "attributeVariant": "DEFAULT",
+      "attributeName": "minecraft:generic.armor",
+      "modifierValue": 1,
+      "operation": "ADDITION"
+    }
+  ],
+  "ignore": false
+}

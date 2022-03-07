@@ -1,0 +1,15 @@
+{
+  "textureIdentifier": "minecraft:block/dark_prismarine",
+  "itemIdentifier": "minecraft:dark_prismarine_slab",
+  "isNubbin": true,
+  "isCollar": true,
+  "attributeModifiers": [
+    {
+      "attributeVariant": "DEFAULT",
+      "attributeName": "minecraft:generic.armor",
+      "modifierValue": 1,
+      "operation": "ADDITION"
+    }
+  ],
+  "ignore": false
+}
